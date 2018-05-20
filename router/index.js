@@ -44,13 +44,13 @@ router.get('/comment_success', (ctx) => {
 
 // 管理界面
 router.get('/manage', async (ctx) => {
-  ctx.redirect(`https://open.work.weixin.qq.com/wwopen/sso/qrConnect?appid=${wechat.corpid}&agentid=${wechat.corpsecret}&redirect_uri=www.tianfer.top/manage/getUserInfo&state=web_login`)
+  ctx.redirect(`https://open.work.weixin.qq.com/wwopen/sso/qrConnect?appid=${wechat.corpid}&agentid=${wechat.corpsecret}&redirect_uri='http%3A%2F%2Fwww.tianfer.top%2Fmanage%2FgetUserInfo'&state=web_login`)
 })
 
 router.get('/manage/getUserInfo', async (ctx) => {
-  const params = ctx.request.querystring
-  console.log(params)
-  if (params.code) {
+  const query = ctx.request.query
+  console.log(query)
+  if (query.code) {
     const res = await util.getUserInfo()
     if (res.errcode === 0) {
       const userInfo = await User.getUserInfo(res.UserId)
@@ -130,7 +130,9 @@ router.post('/commentCourse', async (ctx) => {
 router.get('*', async (ctx) => {
   // ctx.body = '404'
   // 微信扫码登录
-  if (params.code) {
+  const query = ctx.request.query
+  console.log(query)
+  if (query.code) {
     const res = await util.getUserInfo()
     if (res.errcode === 0) {
       const userInfo = await User.getUserInfo(res.UserId)
