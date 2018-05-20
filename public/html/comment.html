@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>评课</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
+  <link rel="stylesheet" href="/css/comment.css"><link rel="stylesheet" href="https://cdn.bootcss.com/weui/1.1.2/style/weui.min.css">
+  <link rel="stylesheet" href="https://cdn.bootcss.com/jquery-weui/1.2.0/css/jquery-weui.min.css">
+  <link rel="stylesheet" href="/css/comment.css">
+</head>
+<body>
+  <div class="container">
+    <h1 class="title">教学评价</h1>
+    <form id="form" action="/postComment" method="post">
+      <div id="input0" class="weui-cell">
+        <div class="weui-cell__hd">
+          <label class="weui-label">课程名称：</label>
+        </div>
+        <div class="weui-cell__bd">
+          <input id=courseName name="course_name" type="text" class="weui-input" placeholder="请输入课程名称" readonly="readonly">
+        </div>
+      </div>
+      <div id="input1" class="weui-cells__title">课程类别</div>
+      <div class="weui-cells weui-cells_radio">
+        <label for="type1" class="weui-cell weui-check__label">
+          <div class="weui-cell__bd">
+            <p>公共基础课</p>
+          </div>
+          <div class="weui-cell__ft">
+            <input name="class_type" type="radio" class="weui-check" id="type1" checked="checked" value="公共基础课">
+            <span class="weui-icon-checked"></span>
+          </div>
+        </label>
+        <label for="type2" class="weui-cell weui-check__label">
+          <div class="weui-cell__bd">
+            <p>专业基础课</p>
+          </div>
+          <div class="weui-cell__ft">
+            <input name="class_type" type="radio" class="weui-check" id="type2" value="专业基础课">
+            <span class="weui-icon-checked"></span>
+          </div>
+        </label>
+        <label for="type3" class="weui-cell weui-check__label">
+          <div class="weui-cell__bd">
+            <p>专业课</p>
+          </div>
+          <div class="weui-cell__ft">
+            <input name="class_type" type="radio" class="weui-check" id="type3" value="专业课">
+            <span class="weui-icon-checked"></span>
+          </div>
+        </label>
+        <label for="type4" class="weui-cell weui-check__label">
+          <div class="weui-cell__bd">
+            <p>公选课</p>
+          </div>
+          <div class="weui-cell__ft">
+            <input name="class_type" type="radio" class="weui-check" id="type4" value="公选课">
+            <span class="weui-icon-checked"></span>
+          </div>
+        </label>
+      </div>
+      <div id="input2" class="weui-cell">
+        <div class="weui-cell__hd">
+          <label class="weui-label">授课老师：</label>
+        </div>
+        <div class="weui-cell__bd">
+          <input id="teacherName" name="teacher_name" type="text" class="weui-input" placeholder="请输入授课老师名称" readonly="readonly">
+        </div>
+      </div>
+      <div id="input3" class="weui-cells__title">年龄</div>
+      <div class="weui-cells weui-cells_radio">
+        <label for="age1" class="weui-cell weui-check__label">
+          <div class="weui-cell__bd">
+            <p>老</p>
+          </div>
+          <div class="weui-cell__ft">
+            <input name="age" type="radio" class="weui-check" id="age1" checked="checked" value="老">
+            <span class="weui-icon-checked"></span>
+          </div>
+        </label>
+        <label for="age2" class="weui-cell weui-check__label">
+          <div class="weui-cell__bd">
+            <p>中</p>
+          </div>
+          <div class="weui-cell__ft">
+            <input name="age" type="radio" class="weui-check" id="age2" value="中">
+            <span class="weui-icon-checked"></span>
+          </div>
+        </label>
+        <label for="age3" class="weui-cell weui-check__label">
+          <div class="weui-cell__bd">
+            <p>青</p>
+          </div>
+          <div class="weui-cell__ft">
+            <input name="age" type="radio" class="weui-check" id="age3" value="青">
+            <span class="weui-icon-checked"></span>
+          </div>
+        </label>
+      </div>
+      <div id="input4" class="weui-cell">
+        <div class="weui-cell__hd">
+          <label class="weui-label">职称：</label>
+        </div>
+        <div class="weui-cell__bd">
+          <input name="pro_title" type="text" class="weui-input" placeholder="请输入老师职称">
+        </div>
+      </div>
+      <div id="input5" class="weui-cell">
+        <div class="weui-cell__hd">
+          <label class="weui-label">所属单位：</label>
+        </div>
+        <div class="weui-cell__bd">
+          <input name="unit" type="text" class="weui-input" placeholder="请输入所属单位">
+        </div>
+      </div>
+      <div id="input6" class="weui-cell">
+        <div class="weui-cell__hd">
+          <label class="weui-label">授课班级：</label>
+        </div>
+        <div class="weui-cell__bd">
+          <input style="font-size: 13px;" id="className" name="class_name" type="text" class="weui-input" placeholder="请输入授课班级" readonly="readonly">
+        </div>
+      </div>
+      <div id="input7" class="weui-cell">
+        <div class="weui-cell__hd">
+          <label class="weui-label">应到人数：</label>
+        </div>
+        <div class="weui-cell__bd">
+          <input name="all_people" type="number" class="weui-input" placeholder="请输入应到人数">
+        </div>
+        <div class="weui-cell__ft">
+          <span class="ft-font">人</span>
+        </div>
+      </div>
+      <div id="input8" class="weui-cell">
+        <div class="weui-cell__hd">
+          <label class="weui-label">实到人数：</label>
+        </div>
+        <div class="weui-cell__bd">
+          <input name="presence" type="number" class="weui-input" placeholder="请输入实到人数">
+        </div>
+        <div class="weui-cell__ft">
+          <span class="ft-font">人</span>
+        </div>
+      </div>
+      <div id="input9" class="weui-cell">
+        <div class="weui-cell__hd">
+          <label class="weui-label">听课时间：</label>
+        </div>
+        <div class="weui-cell__bd">
+          <input name="time_days" type="date" class="weui-input" placeholder="请输入听课时间">
+        </div>
+        <div class="weui-cell__ft">
+          <span id="classes" class="ft-font"></span>
+        </div>
+      </div>
+      <div id="input10" class="weui-cell">
+        <div class="weui-cell__hd">
+          <label class="weui-label">听课地点：</label>
+        </div>
+        <div class="weui-cell__bd">
+          <input id="place" type="text" class="weui-input" placeholder="请输入听课地点" readonly="readonly">
+        </div>
+      </div>
+      <div id="input11" class="weui-cells__title">教室类型</div>
+      <div class="weui-cells weui-cells_radio">
+        <label for="classType1" class="weui-cell weui-check__label">
+          <div class="weui-cell__bd">
+            <p>多媒体教室</p>
+          </div>
+          <div class="weui-cell__ft">
+            <input name="class_room_type" type="radio" class="weui-check" id="classType1" checked="checked" value="多媒体教室">
+            <span class="weui-icon-checked"></span>
+          </div>
+        </label>
+        <label for="classType2" class="weui-cell weui-check__label">
+          <div class="weui-cell__bd">
+            <p>普通教室</p>
+          </div>
+          <div class="weui-cell__ft">
+            <input name="class_room_type" type="radio" class="weui-check" id="classType2" value="普通教室">
+            <span class="weui-icon-checked"></span>
+          </div>
+        </label>
+        <label for="classType3" class="weui-cell weui-check__label">
+          <div class="weui-cell__bd">
+            <p>实验室</p>
+          </div>
+          <div class="weui-cell__ft">
+            <input name="class_room_type" type="radio" class="weui-check" id="classType3" value="实验室">
+            <span class="weui-icon-checked"></span>
+          </div>
+        </label>
+      </div>
+      <div id="input12" class="weui-cell">
+        <div class="weui-cell__hd">
+          <label class="weui-label">教学态度：</label>
+        </div>
+        <div class="weui-cell__bd">
+          <input id="sliderInput0" name="attitude_score" type="hidden" value="0" data-total="15">
+          <div class="weui-slider-box" id="slider0">
+            <div class="weui-slider">
+              <div id="sliderInner" class="weui-slider__inner">
+                <div id="sliderTrack" style="width: 0%;" class="weui-slider__track"></div>
+                <div id="sliderHandler" style="left: 0%;" class="weui-slider__handler"></div>
+              </div>
+            </div>
+            <div id="sliderValue0" class="weui-slider-box__value">0</div>
+          </div>
+        </div>
+        <div class="weui-cell__ft">
+          <label for="tipsControl0" class="weui-icon-info-circle"></label>
+          <input id="tipsControl0" class="tips-control" type="checkbox">
+          <div class="tips">
+            <div class="tips-left">
+              <div>教学态度</div>
+              <div>（15分）</div>
+            </div>
+            <div class="tips-right">
+              <div class="tips-right__item">备课充分，讲课时精神饱满、认真，有热情</div>
+              <div class="tips-right__item">仪表端庄，举止大方，尊重学生，课堂气氛和谐</div>
+              <div class="tips-right__item">上课时提前进入课堂，自觉关闭通讯工具</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="input13" class="weui-cell">
+        <div class="weui-cell__hd">
+          <label class="weui-label">教学内容：</label>
+        </div>
+        <div class="weui-cell__bd">
+          <input id="sliderInput1" name="content_score" type="hidden" value="0" data-total="30">
+          <div class="weui-slider-box" id="slider1">
+            <div class="weui-slider">
+              <div id="sliderInner" class="weui-slider__inner">
+                <div id="sliderTrack" style="width: 0%;" class="weui-slider__track"></div>
+                <div id="sliderHandler" style="left: 0%;" class="weui-slider__handler"></div>
+              </div>
+            </div>
+            <div id="sliderValue1" class="weui-slider-box__value">0</div>
+          </div>
+        </div>
+        <div class="weui-cell__ft">
+          <label for="tipsControl1" class="weui-icon-info-circle"></label>
+          <input id="tipsControl1" class="tips-control" type="checkbox">
+          <div class="tips">
+            <div class="tips-left">
+              <div>教学内容</div>
+              <div>（30分）</div>
+            </div>
+            <div class="tips-right">
+              <div class="tips-right__item">讲课内容与教材相匹配，授课进度与授课计划基本一致</div>
+              <div class="tips-right__item">基本概念、原理、知识讲授清楚、准确，无科学性错误</div>
+              <div class="tips-right__item">逻辑严密，论据有力，难度、深度事宜，重点突出</div>
+              <div class="tips-right__item">内容充实，理论联系实际，能够反映或联系学科的新思想、新概念、新成果</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="input14" class="weui-cell">
+        <div class="weui-cell__hd">
+          <label class="weui-label">方法与手段：</label>
+        </div>
+        <div class="weui-cell__bd">
+          <input id="sliderInput2" name="method_score" type="hidden" value="0" data-total="30">
+          <div class="weui-slider-box" id="slider2">
+            <div class="weui-slider">
+              <div id="sliderInner" class="weui-slider__inner">
+                <div id="sliderTrack" style="width: 0%;" class="weui-slider__track"></div>
+                <div id="sliderHandler" style="left: 0%;" class="weui-slider__handler"></div>
+              </div>
+            </div>
+            <div id="sliderValue2" class="weui-slider-box__value">0</div>
+          </div>
+        </div>
+        <div class="weui-cell__ft">
+          <label for="tipsControl2" class="weui-icon-info-circle"></label>
+          <input id="tipsControl2" class="tips-control" type="checkbox">
+          <div class="tips">
+            <div class="tips-left">
+              <div>教学的方法与手段</div>
+              <div>（30分）</div>
+            </div>
+            <div class="tips-right">
+              <div class="tips-right__item">语言精炼、生动、流畅、有感染力，思路清晰，深入浅出，
+              善于启发嘘声思维，使用普通话授课，做到脱稿讲课</div>
+              <div class="tips-right__item">教学方法灵活多样，能够吸引学生注意力，调动学生学习积极性，注重培养独立思考、联想和创新能力</div>
+              <div class="tips-right__item">注重课堂演示，板书（黑板或多媒体）自己工整，图表规范，设计合理</div>
+              <div class="tips-right__item">教学过程设计与安排有序，
+              教学手段使用得当</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="input15" class="weui-cell">
+        <div class="weui-cell__hd">
+          <label class="weui-label">教学管理：</label>
+        </div>
+        <div class="weui-cell__bd">
+          <input id="sliderInput3" name="manage_score" type="hidden" value="0" data-total="10">
+          <div class="weui-slider-box" id="slider3">
+            <div class="weui-slider">
+              <div id="sliderInner" class="weui-slider__inner">
+                <div id="sliderTrack" style="width: 0%;" class="weui-slider__track"></div>
+                <div id="sliderHandler" style="left: 0%;" class="weui-slider__handler"></div>
+              </div>
+            </div>
+            <div id="sliderValue3" class="weui-slider-box__value">0</div>
+          </div>
+        </div>
+        <div class="weui-cell__ft">
+          <label for="tipsControl3" class="weui-icon-info-circle"></label>
+          <input id="tipsControl3" class="tips-control" type="checkbox">
+          <div class="tips">
+            <div class="tips-left">
+              <div>教学管理</div>
+              <div>（10分）</div>
+            </div>
+            <div class="tips-right">
+              <div class="tips-right__item">课堂上对学生严格要求，学生的出勤率高，课堂纪律好，学习精力集中</div>
+              <div class="tips-right__item">各个教学环节的时间安排合理，既不拖延教学实践，也不提前结束授课</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="input16" class="weui-cell">
+        <div class="weui-cell__hd">
+          <label class="weui-label">教学效果：</label>
+        </div>
+        <div class="weui-cell__bd">
+          <input id="sliderInput4" name="effect_score" type="hidden" value="0" data-total="15">
+          <div class="weui-slider-box" id="slider4">
+            <div class="weui-slider">
+              <div id="sliderInner" class="weui-slider__inner">
+                <div id="sliderTrack" style="width: 0%;" class="weui-slider__track"></div>
+                <div id="sliderHandler" style="left: 0%;" class="weui-slider__handler"></div>
+              </div>
+            </div>
+            <div id="sliderValue4" class="weui-slider-box__value">0</div>
+          </div>
+
+        </div>
+        <div class="weui-cell__ft">
+          <label for="tipsControl4" class="weui-icon-info-circle"></label>
+          <input id="tipsControl4" class="tips-control" type="checkbox">
+          <div class="tips">
+            <div class="tips-left">
+              <div>教学效果</div>
+              <div>（15分）</div>
+            </div>
+            <div class="tips-right">
+              <div class="tips-right__item">学生学习情绪饱满，注意听讲和积极参与教学过程</div>
+              <div class="tips-right__item">帮助学生掌握基本概念、基本理论和基本知识，对关键概念和重要内容能做到当堂消化</div>
+              <div class="tips-right__item">注意培养学生分析问题，解决问题的能力，注重教学育人</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="input17" class="weui-cell">
+        <div class="weui-cell__hd">
+          <label class="weui-label">合计：</label>
+        </div>
+        <div class="weui-cell__bd">
+          <input id="countScore" name="count_score" type="number" class="weui-input" value="0" readonly="readonly">
+        </div>
+      </div>
+      <div id="input18" class="weui-cell">
+        <div class="weui-cell__hd">
+          <label class="weui-label">总体评价：</label>
+        </div>
+        <div class="weui-cell__bd">
+          <input id="countGrade" name="count_grade" type="text" class="weui-input" value="D" readonly="readonly">
+        </div>
+        <div class="weui-cell__ft">
+          <label for="tipsControl5" class="weui-icon-info-circle"></label>
+          <input id="tipsControl5" class="tips-control" type="checkbox">
+          <div class="tips">
+            <div class="tips-left">
+              <div>参考值</div>
+            </div>
+            <div class="tips-right">
+              <div class="tips-right__item">优秀(A)90-100分</div>
+              <div class="tips-right__item">良好(B)75-89分</div>
+              <div class="tips-right__item">中等(C)60-74分</div>
+              <div class="tips-right__item">较差(D)60分以下</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="weui-cells weui-cells_form">
+        <div class="weui-cell">
+          <div class="weui-cell__bd">
+            <div class="weui-uploader">
+              <div class="weui-uploader__hd">
+                <p class="weui-uploader__title">图片上传</p>
+                <div class="weui-uploader__info">0/2</div>
+              </div>
+              <div class="weui-uploader__bd">
+                <ul class="weui-uploader__files" id="uploaderFiles">
+                  <li class="weui-uploader__file" style="background-image:url(./images/pic_160.png)"></li>
+                  <li class="weui-uploader__file" style="background-image:url(./images/pic_160.png)"></li>
+                  <li class="weui-uploader__file" style="background-image:url(./images/pic_160.png)"></li>
+                  <li class="weui-uploader__file weui-uploader__file_status" style="background-image:url(./images/pic_160.png)">
+                    <div class="weui-uploader__file-content">
+                      <i class="weui-icon-warn"></i>
+                    </div>
+                  </li>
+                  <li class="weui-uploader__file weui-uploader__file_status" style="background-image:url(./images/pic_160.png)">
+                    <div class="weui-uploader__file-content">50%</div>
+                  </li>
+                </ul>
+                <div class="weui-uploader__input-box">
+                  <input id="uploaderInput" class="weui-uploader__input" type="file" accept="image/*" multiple="">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="weui-cells__title">其他建议</div>
+      <div class="weui-cells weui-cells_form">
+        <div class="weui-cell">
+          <div class="weui-cell__bd">
+            <textarea id="otherAdvise" name="other_advise" class="weui-textarea" placeholder="如果您有其他建议，请输入在这" rows="3"></textarea>
+            <div class="weui-textarea-counter"><span id="adviseLen">0</span>/200</div>
+          </div>
+        </div>
+      </div>
+
+      <a id="submit" href="javacript:;" class="weui-btn weui-btn_primary submit">提交</a>
+    </form>
+  </div>
+
+  <script src="https://cdn.bootcss.com/jquery/1.10.2/jquery.min.js"></script>
+  <script src="https://cdn.bootcss.com/jquery-weui/1.2.0/js/jquery-weui.min.js"></script>
+  <script src="/js/common/rem.js"></script>
+  <script src="/js/common/loading.js"></script>
+  <script src="/js/common/toast.js"></script>
+  <script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+  <script src="/js/comment/index.js"></script>
+</body>
+</html>

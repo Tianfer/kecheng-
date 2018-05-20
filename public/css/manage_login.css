@@ -1,0 +1,40 @@
+* {
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+html, body {
+  background: #e9eaeb;
+}
+.title {
+  height: 30px;
+  line-height: 30px;
+  color: #409eff;
+  font-size: 24px;
+  margin: 46px 0 40px;
+}
+.login {
+  width: 432px;
+  height: 480px;
+  background: #fff;
+  margin: 0 auto;
+  border-radius: 4px;
+  overflow: hidden;
+}
+.login-header {
+  height: 27px;
+  line-height: 27px;
+  margin: 32px 0;
+  font-size: 18px;
+}
+.login-qr {
+  width: 285px;
+  height: 285px;
+}
+.login-tips {
+  height: 20px;
+  line-height: 20px;
+  margin: 30px 0 0;
+  color: #aaa;
+  font-size: 14px;
+}

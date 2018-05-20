@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
+  <link rel="stylesheet" href="//cdn.bootcss.com/semantic-ui/1.12.3/semantic.min.css">
+  <!-- <link href="https://cdn.bootcss.com/layer/3.1.0/mobile/need/layer.css" rel="stylesheet"> -->
+  <title>课表查询</title>
+</head>
+<body>
+  <div class="schedule container" style="margin: 15px 15px">
+    <div class="ui positive message">
+        <div class="header">
+          <div class="ui inline dropdown">
+            <div class="text">选择</div>
+            <i class="dropdown icon"></i>
+            <div class="menu">
+              <div data-name="building" class="item">全部教学楼</div>
+              <div data-name="building" class="item">第一教学楼</div>
+              <div data-name="building" class="item">第四教学楼</div>
+              <div data-name="building" class="item">第五教学楼</div>
+              <div data-name="building" class="item">第八教学楼</div>
+              <div data-name="building" class="item">第九教学楼</div>
+              <div data-name="building" class="item">十教东附楼</div>
+              <div data-name="building" class="item">逸夫楼</div>
+            </div>
+          </div>
+          <div class="ui inline dropdown">
+            <div class="text">选择</div>
+            <i class="dropdown icon"></i>
+            <div class="menu">
+              <div data-name="week" class="item">第1周</div>
+              <div data-name="week" class="item">第2周</div>
+              <div data-name="week" class="item">第3周</div>
+              <div data-name="week" class="item">第4周</div>
+              <div data-name="week" class="item">第5周</div>
+              <div data-name="week" class="item">第6周</div>
+              <div data-name="week" class="item">第7周</div>
+              <div data-name="week" class="item">第8周</div>
+              <div data-name="week" class="item">第9周</div>
+              <div data-name="week" class="item">第10周</div>
+              <div data-name="week" class="item">第11周</div>
+              <div data-name="week" class="item">第12周</div>
+              <div data-name="week" class="item">第13周</div>
+              <div data-name="week" class="item">第14周</div>
+              <div data-name="week" class="item">第15周</div>
+              <div data-name="week" class="item">第16周</div>
+              <div data-name="week" class="item">第17周</div>
+              <div data-name="week" class="item">第18周</div>
+            </div>
+          </div>
+          <div class="ui inline dropdown">
+            <div class="text">选择</div>
+            <i class="dropdown icon"></i>
+            <div class="menu">
+              <div data-name="day" class="item">周一</div>
+              <div data-name="day" class="item">周二</div>
+              <div data-name="day" class="item">周三</div>
+              <div data-name="day" class="item">周四</div>
+              <div data-name="day" class="item">周五</div>
+              <div data-name="day" class="item">周六</div>
+              <div data-name="day" class="item">周日</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ui top attached tabular menu">
+        <div class="item active" data-tab="1-2">1-2</div>
+        <div class="item" data-tab="3-4">3-4</div>
+        <div class="item" data-tab="5-6">5-6</div>
+        <div class="item" data-tab="7-8">7-8</div>
+        <div class="item" data-tab="9-10">9-10</div>
+      </div>
+    <div class="ui bottom attached tab segment ng-scope active" data-tab="1-2" id="tabular1-2">
+      <div class="ui info message">
+            请选择教学楼，周次和日期
+        </div>
+    </div>
+    <div class="ui bottom attached tab segment ng-scope" data-tab="3-4" id="tabular3-4">
+      <div class="ui info message">
+            请选择教学楼，周次和日期
+        </div>
+    </div>
+    <div class="ui bottom attached tab segment ng-scope" data-tab="5-6" id="tabular5-6">
+      <div class="ui info message">
+            请选择教学楼，周次和日期
+        </div>
+    </div>
+    <div class="ui bottom attached tab segment ng-scope" data-tab="7-8" id="tabular7-8">
+      <div class="ui info message">
+            请选择教学楼，周次和日期
+        </div>
+    </div>
+    <div class="ui bottom attached tab segment ng-scope" data-tab="9-10" id="tabular9-10">
+      <div class="ui info message">
+            请选择教学楼，周次和日期
+        </div>
+    </div>
+  </div>
+  <script src="https://cdn.bootcss.com/jquery/1.10.2/jquery.min.js"></script>
+  <script src="//cdn.bootcss.com/semantic-ui/1.12.3/semantic.min.js"></script>
+  <!-- <script src="https://cdn.bootcss.com/layer/3.1.0/mobile/layer.js"></script> -->
+  <!-- <script src="/js/common/rem.js"></script> -->
+  <script src="/js/common/loading.js"></script>
+  <script src="/js/common/toast.js"></script>
+  <script src="/js/course/index.js"></script>
+</body>
+</html>

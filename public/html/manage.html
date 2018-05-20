@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>听课评价管理台</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/manage.css">
+</head>
+<body>
+  <div class="container">
+    <h1 class="title">听课评价管理台</h1>
+
+    <div class="table-box">
+      <div class="table-header">
+        <a id="export" download="somedata.xls" href="#" class="export">导出</a>
+        <div class="search">
+          <a href="javascript:;" class="search-type">
+            <span id="searchText" class="search-text">听课老师</span>
+            <i class="icon-arrow-down search-icon"></i>
+            <ul id="searchList" class="search-list">
+              <li data-type="listen">听课老师</li>
+              <li data-type="speak">上课老师</li>
+              <li data-type="rank">评级</li>
+            </ul>
+          </a>
+          <input id="searchInput" type="text" class="search-input" placeholder="请输入搜索的内容">
+          <a id="searchBtn" href="javascript:;" class="search-btn">搜索</a>
+        </div>
+      </div>
+      <table id="table" class="table">
+        <thead>
+          <tr class="table-list table-head">
+            <th class="table-item table-item__listen">听课老师</th>
+            <th class="table-item">上课老师</th>
+            <th class="table-item table-item__rate">实到/应到</th>
+            <th class="table-item">教学态度</th>
+            <th class="table-item">教学内容</th>
+            <th class="table-item table-item__method">方法与手段</th>
+            <th class="table-item">教学管理</th>
+            <th class="table-item">教学效果</th>
+            <th class="table-item">总分/评级</th>
+            <th class="table-item table-item__advice">其他建议</th>
+            <th class="table-item table-item__operate">操作</th>
+          </tr>
+        </thead>
+        <tbody id="tbody" class="table-body">
+          <!-- <tr class="js-index1 table-list">
+            <td class="table-item table-item__listen">a</td>
+            <td class="table-item">b</td>
+            <td class="table-item">34/35</td>
+            <td class="table-item">15</td>
+            <td class="table-item">15</td>
+            <td class="table-item table-item__method">30</td>
+            <td class="table-item">20</td>
+            <td class="table-item">20</td>
+            <td class="table-item">100/A</td>
+            <td class="table-item table-item__advice">
+              <div class="table-item__advice-text">
+                加sdasdsa 洒大地萨达爱上啊 dasd爱上 大叔的啊的啊啊实打实的
+              </div>
+            </td>
+            <td class="table-item table-item__operate">
+              <a data-id="1" class="js-operateDel operate-del" href="javascript:;">删除</a>
+            </td>
+          </tr> -->
+        </tbody>
+      </table>
+    </div>
+
+    <div id="message" class="message">
+      <div class="message-header">
+        <div class="message-title">提示</div>
+        <a id="msgClose" href="javascript:;" class="message-close">x</a>
+      </div>
+      <div class="message-content">
+        确定删除该评论么
+      </div>
+      <div class="message-footer">
+        <a id="msgCancel" href="javascript:;" class="message-btn message-btn__cancel">取消</a>
+        <a id="msgConfirm" href="javascript:;" class="message-btn message-btn__confirm">确认</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.bootcss.com/jquery/1.10.2/jquery.min.js"></script>
+  <script src="/js/common/toast.js"></script>
+  <script src="/js/common/loading.js"></script>
+  <script src="/js/lib/excellentexport.js"></script>
+  <script src="/js/manage/index.js"></script>
+</body>
+</html>
