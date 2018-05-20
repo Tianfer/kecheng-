@@ -127,7 +127,7 @@ router.post('/commentCourse', async (ctx) => {
 })
 
 // 其他页面就404
-router.get('*', (ctx) => {
+router.get('*', async (ctx) => {
   // ctx.body = '404'
   // 微信扫码登录
   if (params.code) {
