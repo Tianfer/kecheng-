@@ -3,6 +3,7 @@ const router = new Router()
 
 const util = require('../wechat/util')
 const paramsConfig = require('../config/params')
+const wechat = require('../data/wechat')
 
 const Course = require('../sql/connect/course')
 const Manage = require('../sql/connect/manage')
@@ -43,12 +44,7 @@ router.get('/comment_success', (ctx) => {
 
 // 管理界面
 router.get('/manage', async (ctx) => {
-  ctx.redirect(`https://open.work.weixin.qq.com/wwopen/sso/qrConnect?
-      appid=wx6219dbfa9b86489e
-      &agentid=122
-      &redirect_uri=http://comment.tianfer.top/manage/getUserInfo
-      &state=web_login
-    `)
+  ctx.redirect(`https://open.work.weixin.qq.com/wwopen/sso/qrConnect?appid=${wechat.corpid}&agentid=${wechat.corpsecret}&redirect_uri=http://www.tianfer.top/manage/getUserInfo&state=web_login`)
 })
 
 router.get('/manage/getUserInfo', async (ctx) => {
