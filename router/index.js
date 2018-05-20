@@ -128,7 +128,20 @@ router.post('/commentCourse', async (ctx) => {
 
 // 其他页面就404
 router.get('*', (ctx) => {
-  ctx.body = '404'
+  // ctx.body = '404'
+  // 微信扫码登录
+  if (params.code) {
+    const res = await util.getUserInfo()
+    if (res.errcode === 0) {
+      const userInfo = await User.getUserInfo(res.UserId)
+      console.log(userInfo)
+    } else {
+      console.log('登录出错')
+      console.log(res)
+    }
+  } else {
+    console.log('取消登录')
+  }
 })
 
 router.post('*', (ctx) => {
