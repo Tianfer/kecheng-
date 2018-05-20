@@ -8,28 +8,28 @@ const wechat = require('../data/wechat')
 const Course = require('../sql/connect/course')
 const Manage = require('../sql/connect/manage')
 
-// 接通微信服务器绑定校验
-router.get('/wechatCheckout', (ctx) => {
-  console.log('wechatCheckout')
-  util.checkout(ctx)
-})
+// // 接通微信服务器绑定校验
+// router.get('/wechatCheckout', (ctx) => {
+//   console.log('wechatCheckout')
+//   util.checkout(ctx)
+// })
 
-// 测试获取微信获取At
-router.get('/wechatAccessToken', async (ctx) => {
-  console.log('wechatAccessToken')
-  ctx.body = await util.getAt()
-})
+// // 测试获取微信获取At
+// router.get('/wechatAccessToken', async (ctx) => {
+//   console.log('wechatAccessToken')
+//   ctx.body = await util.getAt()
+// })
 
-// 接收微信消息事件
-router.post('/wechatCheckout', async (ctx) => {
-  util.dealMsg(ctx)
-})
+// // 接收微信消息事件
+// router.post('/wechatCheckout', async (ctx) => {
+//   util.dealMsg(ctx)
+// })
 
-// 自定义按钮
-router.get('/defineMenu', async (ctx) => {
-  console.log('defineMenu')
-  ctx.body = await util.defineMenu()
-})
+// // 自定义按钮
+// router.get('/defineMenu', async (ctx) => {
+//   console.log('defineMenu')
+//   ctx.body = await util.defineMenu()
+// })
 
 // 评论页面
 router.get('/comment', (ctx) => {
@@ -44,7 +44,7 @@ router.get('/comment_success', (ctx) => {
 
 // 管理界面
 router.get('/manage', async (ctx) => {
-  ctx.redirect(`https://open.work.weixin.qq.com/wwopen/sso/qrConnect?appid=${wechat.corpid}&agentid=${wechat.corpsecret}&redirect_uri=http://www.tianfer.top/manage/getUserInfo&state=web_login`)
+  ctx.redirect(`https://open.work.weixin.qq.com/wwopen/sso/qrConnect?appid=${wechat.corpid}&agentid=${wechat.corpsecret}&redirect_uri=www.tianfer.top/manage/getUserInfo&state=web_login`)
 })
 
 router.get('/manage/getUserInfo', async (ctx) => {
