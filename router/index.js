@@ -7,6 +7,7 @@ const wechat = require('../data/wechat')
 
 const Course = require('../sql/connect/course')
 const Manage = require('../sql/connect/manage')
+const User = require('../sql/connect/user')
 
 // 评论页面
 router.get('/comment', (ctx) => {
