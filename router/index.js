@@ -8,29 +8,6 @@ const wechat = require('../data/wechat')
 const Course = require('../sql/connect/course')
 const Manage = require('../sql/connect/manage')
 
-// // 接通微信服务器绑定校验
-// router.get('/wechatCheckout', (ctx) => {
-//   console.log('wechatCheckout')
-//   util.checkout(ctx)
-// })
-
-// // 测试获取微信获取At
-// router.get('/wechatAccessToken', async (ctx) => {
-//   console.log('wechatAccessToken')
-//   ctx.body = await util.getAt()
-// })
-
-// // 接收微信消息事件
-// router.post('/wechatCheckout', async (ctx) => {
-//   util.dealMsg(ctx)
-// })
-
-// // 自定义按钮
-// router.get('/defineMenu', async (ctx) => {
-//   console.log('defineMenu')
-//   ctx.body = await util.defineMenu()
-// })
-
 // 评论页面
 router.get('/comment', (ctx) => {
   console.log(ctx.request.querystring)
@@ -44,7 +21,7 @@ router.get('/comment_success', (ctx) => {
 
 // 管理界面
 router.get('/manage', async (ctx) => {
-  ctx.redirect(`https://open.work.weixin.qq.com/wwopen/sso/qrConnect?appid=${wechat.corpid}&agentid=${wechat.corpsecret}&redirect_uri='http%3A%2F%2Fwww.tianfer.top%2Fmanage%2FgetUserInfo'&state=web_login`)
+  ctx.redirect(`https://open.work.weixin.qq.com/wwopen/sso/qrConnect?appid=${wechat.corpid}&agentid=${wechat.agentid}&redirect_uri=http%3A%2F%2Fwww.tianfer.top%2Fmanage%2FgetUserInfo&state=web_login`)
 })
 
 router.get('/manage/getUserInfo', async (ctx) => {
@@ -128,22 +105,7 @@ router.post('/commentCourse', async (ctx) => {
 
 // 其他页面就404
 router.get('*', async (ctx) => {
-  // ctx.body = '404'
-  // 微信扫码登录
-  const query = ctx.request.query
-  console.log(query)
-  if (query.code) {
-    const res = await util.getUserInfo()
-    if (res.errcode === 0) {
-      const userInfo = await User.getUserInfo(res.UserId)
-      console.log(userInfo)
-    } else {
-      console.log('登录出错')
-      console.log(res)
-    }
-  } else {
-    console.log('取消登录')
-  }
+  ctx.body = '404'
 })
 
 router.post('*', (ctx) => {
