@@ -12,6 +12,10 @@
   }
 
   Manage.prototype = {
+    setUserName: function () {
+      var name = location.search.split('=')[1]
+      $('#name').text(name)
+    },
     chooseSearchType: function () {
       var that = this
       $('#searchList').click(function (e) {
@@ -135,6 +139,7 @@
       return ExcellentExport.excel(this, 'table', 'demo')
     },
     init: function () {
+      this.setUserName()
       this.getCommentList()
       this.chooseSearchType()
       this.bindSearchBtnClick()

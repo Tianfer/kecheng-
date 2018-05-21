@@ -22,13 +22,15 @@ router.get('/comment_success', (ctx) => {
 
 // 管理界面
 router.get('/manage', async (ctx) => {
-  if (ctx.cookies.get('name')) {
-    ctx.redirect('/html/manage.html')
+  if (ctx.cookies.get('id')) {
+    const userInfo = await User.getUserInfo(res.UserId)
+    ctx.redirect(`/html/manage.html?name=${userInfo.data[0].name}`)
   } else {
     ctx.redirect(`https://open.work.weixin.qq.com/wwopen/sso/qrConnect?appid=${wechat.corpid}&agentid=${wechat.agentid}&redirect_uri=http%3A%2F%2Fwww.tianfer.top%2Fmanage%2FgetUserInfo&state=web_login`)
   }
 })
 
+// 获取用户信息
 router.get('/manage/getUserInfo', async (ctx) => {
   const query = ctx.request.query
   console.log(query)
@@ -36,26 +38,19 @@ router.get('/manage/getUserInfo', async (ctx) => {
     const res = await util.getUserInfo(query.code)
     if (res.errcode === 0) {
       const userInfo = await User.getUserInfo(res.UserId)
-      console.log(userInfo)
-      console.log(userInfo.data[0])
-      console.log(userInfo.data[0].name)
       // 设置cookie，过期时间为7天
-      ctx.cookies.set('name', userInfo.data[0].name, {
-        expires: new Date(Date.now() + 604800000)
-      })
-      ctx.redirect('/html/manage.html')
+      if (userInfo.data[0].level >= 2) {
+        ctx.cookies.set('name', res.UserId, {
+          expires: new Date(Date.now() + 604800000)
+        })
+        ctx.redirect(`/html/manage.html?name=${userInfo.data[0].name}`)
+      } else {
+        ctx.body = '您暂无权限查看'
+      }
     } else {
-      console.log('登录出错')
-      console.log(res)
+      ctx.body = res
     }
-  } else {
-    console.log('取消登录')
   }
-})
-
-// 管理登录界面
-router.get('/manage/login', async (ctx) => {
-  ctx.redirect('/html/manage.html')
 })
 
 // 管理界面获取列表
