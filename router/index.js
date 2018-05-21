@@ -22,8 +22,9 @@ router.get('/comment_success', (ctx) => {
 
 // 管理界面
 router.get('/manage', async (ctx) => {
-  if (ctx.cookies.get('id')) {
-    const userInfo = await User.getUserInfo(res.UserId)
+  var id = ctx.cookies.get('id')
+  if (id) {
+    const userInfo = await User.getUserInfo(id)
     ctx.redirect(`/html/manage.html?name=${userInfo.data[0].teacher_id}`)
   } else {
     ctx.redirect(`https://open.work.weixin.qq.com/wwopen/sso/qrConnect?appid=${wechat.corpid}&agentid=${wechat.agentid}&redirect_uri=http%3A%2F%2Fwww.tianfer.top%2Fmanage%2FgetUserInfo&state=web_login`)
@@ -60,10 +61,7 @@ router.get('/manage/getUserInfo', async (ctx) => {
 // 前端获取用户信息
 router.get('/api/getUserInfo', async (ctx) => {
   const id = ctx.cookies.get('id')
-  console.log(id)
   if (id) {
-    ctx.redirect('/manage')
-  } else {
     const result = await User.getUserInfo(id)
     console.log(result)
     if (result.code === 0) {
@@ -76,6 +74,8 @@ router.get('/api/getUserInfo', async (ctx) => {
     } else {
       ctx.body = result
     }
+  } else {
+    ctx.redirect('/manage')
   }
 })
 
