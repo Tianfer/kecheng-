@@ -20,15 +20,32 @@ a {
 thead, tbody {
   display: block;
 }
+.container {
+}
 .container .show {
   display: block;
+}
+.nav-wrap {
+  background: #409eff;
+  color: #fff;
+}
+.nav {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  width: 1240px;
+  height: 40px;
+  margin: 0 auto;
+}
+.nav-line {
+  margin: 0 10px;
 }
 .title {
   margin: 20px 0;
 }
 .table-box {
-  min-width: 1200px;
-  margin: 0 20px;
+  width: 1200px;
+  margin: 0 auto;
   padding: 0 20px;
   background: #fff;
   border-radius: 4px;
