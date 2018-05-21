@@ -66,10 +66,7 @@ const getUserInfo = async (code) => {
   let result = {}
   const At = await getAt()
   await new Promise((resolve, reject) => {
-    https.get(`https://qyapi.weixin.qq.com/cgi-bin/user/getuserinfo
-      ?access_token=${At}
-      &code=${code}
-    `, res => {
+    https.get(`https://qyapi.weixin.qq.com/cgi-bin/user/getuserinfo?access_token=${At}&code=${code}`, res => {
       res.on('data', (data) => {
         resolve(JSON.parse(data.toString()))
       })
