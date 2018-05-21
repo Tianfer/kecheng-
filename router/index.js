@@ -32,7 +32,7 @@ router.get('/manage/getUserInfo', async (ctx) => {
   const query = ctx.request.query
   console.log(query)
   if (query.code) {
-    const res = await util.getUserInfo()
+    const res = await util.getUserInfo(query.code)
     if (res.errcode === 0) {
       const userInfo = await User.getUserInfo(res.UserId)
       console.log(userInfo)
