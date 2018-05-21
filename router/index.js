@@ -37,8 +37,10 @@ router.get('/manage/getUserInfo', async (ctx) => {
     if (res.errcode === 0) {
       const userInfo = await User.getUserInfo(res.UserId)
       console.log(userInfo)
+      console.log(userInfo.data[0])
+      console.log(userInfo.data[0].name)
       // 设置cookie，过期时间为7天
-      ctx.cookies.set('name', userInfo.name, {
+      ctx.cookies.set('name', userInfo.data[0].name, {
         expires: new Date(Date.now() + 604800000)
       })
       ctx.redirect('/html/manage.html')
