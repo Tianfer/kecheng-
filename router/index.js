@@ -84,6 +84,14 @@ router.post('/api/getCommentList', async (ctx) => {
   ctx.body = await Manage.getCommentList(ctx.request.body)
 })
 
+// 管理界面退出
+router.get('/api/logout', async (ctx) => {
+  ctx.cookies.set('id', '', {
+    expires: new Date(Date.now() - 3600000)
+  })
+  ctx.redirect(`https://open.work.weixin.qq.com/wwopen/sso/qrConnect?appid=${wechat.corpid}&agentid=${wechat.agentid}&redirect_uri=http%3A%2F%2Fwww.tianfer.top%2Fmanage%2FgetUserInfo&state=web_login`)
+})
+
 // 管理界面删除单个评论
 router.post('/delComment', async (ctx) => {
   console.log(ctx.request.body)

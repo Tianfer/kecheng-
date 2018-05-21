@@ -20,8 +20,9 @@
         url: '/api/getUserInfo',
         success: function (res) {
           if (res.code === 0) {
-            that.setUserName(res.data.name)
             that.getCommentList()
+            that.setUserName(res.data.name)
+            that.bindLogoutClick()
           } else {
             loading.hide()
             toast(res.msg)
@@ -35,6 +36,14 @@
     },
     setUserName: function (name) {
       $('#name').text(name)
+    },
+    bindLogoutClick: function () {
+      $('#logout').click(function () {
+        $.ajax({
+          type: 'get',
+          url: '/api/logout'
+        })
+      })
     },
     chooseSearchType: function () {
       var that = this
