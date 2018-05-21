@@ -1,7 +1,6 @@
 const https = require('https')
 const fs = require('fs')
 const sha1 = require('sha1')
-// const querystring = require('querystring')
 
 const config = require('../data/wechat.js')
 
@@ -229,8 +228,5 @@ const isParamsOk = (params, formatObj, type) => {
 module.exports = {
   getAt,
   getUserInfo,
-  // checkout,
-  // defineMenu,
-  // dealMsg,
   isParamsOk
 }
