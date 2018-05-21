@@ -24,7 +24,7 @@ router.get('/comment_success', (ctx) => {
 router.get('/manage', async (ctx) => {
   if (ctx.cookies.get('id')) {
     const userInfo = await User.getUserInfo(res.UserId)
-    ctx.redirect(`/html/manage.html?name=${userInfo.data[0].name}`)
+    ctx.redirect(`/html/manage.html?name=${userInfo.data[0].teacher_id}`)
   } else {
     ctx.redirect(`https://open.work.weixin.qq.com/wwopen/sso/qrConnect?appid=${wechat.corpid}&agentid=${wechat.agentid}&redirect_uri=http%3A%2F%2Fwww.tianfer.top%2Fmanage%2FgetUserInfo&state=web_login`)
   }
@@ -37,18 +37,42 @@ router.get('/manage/getUserInfo', async (ctx) => {
   if (query.code) {
     const res = await util.getUserInfo(query.code)
     if (res.errcode === 0) {
-      const userInfo = await User.getUserInfo(res.UserId)
+      const result = await User.getUserInfo(res.UserId)
       // 设置cookie，过期时间为7天
-      if (userInfo.data[0].level >= 2) {
-        ctx.cookies.set('name', res.UserId, {
-          expires: new Date(Date.now() + 604800000)
-        })
-        ctx.redirect(`/html/manage.html?name=${userInfo.data[0].name}`)
+      if (result.code === 0) {
+        if (result.data[0].level >= 2) {
+          ctx.cookies.set('id', res.UserId, {
+            expires: new Date(Date.now() + 604800000)
+          })
+          ctx.redirect(`/html/manage.html`)
+        } else {
+          ctx.body = '您暂无权限查看'
+        }
       } else {
-        ctx.body = '您暂无权限查看'
+        ctx.body = result
       }
     } else {
       ctx.body = res
+    }
+  }
+})
+
+// 前端获取用户信息
+router.get('/api/getUserInfo', async (ctx) => {
+  const id = ctx.cookies.get('id')
+  if (id) {
+    ctx.redirect('/manage')
+  } else {
+    const result = await User.getUserInfo(res.UserId)
+    if (result.code === 0) {
+      ctx.body = {
+        code: 0,
+        data: {
+          name: result.data[0].name
+        }
+      }
+    } else {
+      ctx.body = result
     }
   }
 })

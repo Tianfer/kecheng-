@@ -12,8 +12,28 @@
   }
 
   Manage.prototype = {
-    setUserName: function () {
-      var name = location.search.split('=')[1]
+    getUserInfo: function () {
+      loading.show()
+      var that = this
+      $.ajax({
+        type: 'get',
+        url: '/api/getUserInfo',
+        success: function (res) {
+          if (res.code === 0) {
+            that.setUserName(res.data.name)
+            that.getCommentList()
+          } else {
+            loading.hide()
+            toast(res.msg)
+          }
+        },
+        error: function () {
+          loading.hide()
+          toast('网络异常，请稍后再试')
+        }
+      })
+    },
+    setUserName: function (name) {
       $('#name').text(name)
     },
     chooseSearchType: function () {
@@ -25,7 +45,6 @@
       })
     },
     getCommentList: function (params) {
-      loading.show()
       params || (params = {})
       var that = this
       $.ajax({
@@ -139,8 +158,7 @@
       return ExcellentExport.excel(this, 'table', 'demo')
     },
     init: function () {
-      this.setUserName()
-      this.getCommentList()
+      this.getUserInfo()
       this.chooseSearchType()
       this.bindSearchBtnClick()
       this.bindMsgCloseClick()
