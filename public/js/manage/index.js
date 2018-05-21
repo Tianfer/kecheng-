@@ -23,6 +23,8 @@
             that.getCommentList()
             that.setUserName(res.data.name)
             that.bindLogoutClick()
+          } else if (res.code === 403) {
+            location.href = '/manage'
           } else {
             loading.hide()
             toast(res.msg)
@@ -41,7 +43,12 @@
       $('#logout').click(function () {
         $.ajax({
           type: 'get',
-          url: '/api/logout'
+          url: '/api/logout',
+          success: function (res) {
+            if (res.code === 0) {
+              location.href = '/manage'
+            }
+          }
         })
       })
     },

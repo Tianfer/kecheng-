@@ -75,8 +75,9 @@ router.get('/api/getUserInfo', async (ctx) => {
       ctx.body = result
     }
   } else {
-    ctx.body = {}
-    ctx.redirect(`https://open.work.weixin.qq.com/wwopen/sso/qrConnect?appid=${wechat.corpid}&agentid=${wechat.agentid}&redirect_uri=http%3A%2F%2Fwww.tianfer.top%2Fmanage%2FgetUserInfo&state=web_login`)
+    ctx.body = {
+      code: 403
+    }
   }
 })
 
@@ -90,8 +91,9 @@ router.get('/api/logout', async (ctx) => {
   ctx.cookies.set('id', '', {
     expires: new Date(Date.now() - 3600000)
   })
-  ctx.body = {}
-  ctx.redirect(`https://open.work.weixin.qq.com/wwopen/sso/qrConnect?appid=${wechat.corpid}&agentid=${wechat.agentid}&redirect_uri=http%3A%2F%2Fwww.tianfer.top%2Fmanage%2FgetUserInfo&state=web_login`)
+  ctx.body = {
+    code: 0
+  }
 })
 
 // 管理界面删除单个评论
