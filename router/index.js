@@ -40,6 +40,7 @@ router.get('/manage/getUserInfo', async (ctx) => {
       ctx.cookies.set('name', userInfo.name, {
         expires: new Date(Date.now() + 604800000)
       })
+      ctx.redirect('/html/manage.html')
     } else {
       console.log('登录出错')
       console.log(res)
