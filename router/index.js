@@ -21,7 +21,11 @@ router.get('/comment_success', (ctx) => {
 
 // 管理界面
 router.get('/manage', async (ctx) => {
-  ctx.redirect(`https://open.work.weixin.qq.com/wwopen/sso/qrConnect?appid=${wechat.corpid}&agentid=${wechat.agentid}&redirect_uri=http%3A%2F%2Fwww.tianfer.top%2Fmanage%2FgetUserInfo&state=web_login`)
+  if (ctx.cookies.get('name')) {
+    ctx.redirect('/html/manage.html')
+  } else {
+    ctx.redirect(`https://open.work.weixin.qq.com/wwopen/sso/qrConnect?appid=${wechat.corpid}&agentid=${wechat.agentid}&redirect_uri=http%3A%2F%2Fwww.tianfer.top%2Fmanage%2FgetUserInfo&state=web_login`)
+  }
 })
 
 router.get('/manage/getUserInfo', async (ctx) => {
@@ -32,6 +36,10 @@ router.get('/manage/getUserInfo', async (ctx) => {
     if (res.errcode === 0) {
       const userInfo = await User.getUserInfo(res.UserId)
       console.log(userInfo)
+      // 设置cookie，过期时间为7天
+      ctx.cookies.set('name', userInfo.name, {
+        expires: new Date(Date.now() + 604800000)
+      })
     } else {
       console.log('登录出错')
       console.log(res)
