@@ -49,7 +49,7 @@
       var that = this
       $.ajax({
         type: 'post',
-        url: '/getCommentList',
+        url: '/api/getCommentList',
         data: params,
         success: function (res) {
           loading.hide()

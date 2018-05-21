@@ -63,7 +63,7 @@ router.get('/api/getUserInfo', async (ctx) => {
   if (id) {
     ctx.redirect('/manage')
   } else {
-    const result = await User.getUserInfo(res.UserId)
+    const result = await User.getUserInfo(id)
     if (result.code === 0) {
       ctx.body = {
         code: 0,
@@ -78,7 +78,7 @@ router.get('/api/getUserInfo', async (ctx) => {
 })
 
 // 管理界面获取列表
-router.post('/getCommentList', async (ctx) => {
+router.post('/api/getCommentList', async (ctx) => {
   ctx.body = await Manage.getCommentList(ctx.request.body)
 })
 
