@@ -60,10 +60,12 @@ router.get('/manage/getUserInfo', async (ctx) => {
 // 前端获取用户信息
 router.get('/api/getUserInfo', async (ctx) => {
   const id = ctx.cookies.get('id')
+  console.log(id)
   if (id) {
     ctx.redirect('/manage')
   } else {
     const result = await User.getUserInfo(id)
+    console.log(result)
     if (result.code === 0) {
       ctx.body = {
         code: 0,
