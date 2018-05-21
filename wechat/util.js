@@ -71,7 +71,7 @@ const getUserInfo = async (code) => {
       &code=${code}
     `, res => {
       res.on('data', (data) => {
-        resolve(data)
+        resolve(JSON.parse(data.toString()))
       })
     })
   }).then((data) => {
