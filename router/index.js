@@ -25,7 +25,7 @@ router.get('/manage', async (ctx) => {
   var id = ctx.cookies.get('id')
   if (id) {
     const userInfo = await User.getUserInfo(id)
-    ctx.redirect(`/html/manage.html?name=${userInfo.data[0].teacher_id}`)
+    ctx.redirect(`/html/manage.html`)
   } else {
     ctx.redirect(`https://open.work.weixin.qq.com/wwopen/sso/qrConnect?appid=${wechat.corpid}&agentid=${wechat.agentid}&redirect_uri=http%3A%2F%2Fwww.tianfer.top%2Fmanage%2FgetUserInfo&state=web_login`)
   }
@@ -75,7 +75,8 @@ router.get('/api/getUserInfo', async (ctx) => {
       ctx.body = result
     }
   } else {
-    ctx.redirect('/manage')
+    ctx.body = {}
+    ctx.redirect(`https://open.work.weixin.qq.com/wwopen/sso/qrConnect?appid=${wechat.corpid}&agentid=${wechat.agentid}&redirect_uri=http%3A%2F%2Fwww.tianfer.top%2Fmanage%2FgetUserInfo&state=web_login`)
   }
 })
 
@@ -89,6 +90,7 @@ router.get('/api/logout', async (ctx) => {
   ctx.cookies.set('id', '', {
     expires: new Date(Date.now() - 3600000)
   })
+  ctx.body = {}
   ctx.redirect(`https://open.work.weixin.qq.com/wwopen/sso/qrConnect?appid=${wechat.corpid}&agentid=${wechat.agentid}&redirect_uri=http%3A%2F%2Fwww.tianfer.top%2Fmanage%2FgetUserInfo&state=web_login`)
 })
 

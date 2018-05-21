@@ -40,6 +40,9 @@ thead, tbody {
 .nav-line {
   margin: 0 10px;
 }
+.nav-logout {
+  color: #fff;
+}
 .title {
   margin: 20px 0;
 }
