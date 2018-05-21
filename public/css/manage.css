@@ -10,7 +10,7 @@ ul {
   margin: 0;
   padding: 0;
 }
-ul li {
+ul, li {
   list-style: none;
 }
 a {
@@ -254,4 +254,33 @@ thead, tbody {
 .message-btn__confirm:hover {
   background: #66b1ff;
   border-color: #66b1ff;
+}
+.paginator {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0 0;
+}
+.paginator li {
+  height: 40px;
+  line-height: 40px;
+  padding: 0 16px;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-right: none;
+}
+.paginator li:last-child {
+  border-right: 1px solid #ccc;
+}
+.paginator a {
+  color: #409eff;
+}
+.paginator .disabled a {
+  color: #ccc;
+}
+.paginator .active {
+  background: #409eff;
+  color: #fff;
+}
+.paginator .active a {
+  color: #fff;
 }

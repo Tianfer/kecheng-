@@ -6,7 +6,8 @@
     this.$tbody = $('#tbody')
     this.$message = $('#message')
 
-    this.delId = -1
+    this.delId = -1,
+    this.currentPage = 1
 
     this.init()
   }
@@ -62,6 +63,7 @@
     },
     getCommentList: function (params) {
       params || (params = {})
+      params.currentPage = this.currentPage
       var that = this
       $.ajax({
         type: 'post',
@@ -71,7 +73,10 @@
           loading.hide()
           console.log(res)
           if (res.code === 0) {
-            that.setCommentList(res.data)
+            that.setCommentList(res.data.list)
+            that.initPaginator(res.data.count)
+          } else {
+            toast(res.msg)
           }
         },
         error: function () {
@@ -173,8 +178,30 @@
     export: function () {
       return ExcellentExport.excel(this, 'table', 'demo')
     },
+    initPaginator: function (count) {
+      var that = this
+      $('#paginator').jqPaginator({
+        totalPages: Math.ceil(count / 10),
+        onPageChange: function (num) {
+          if (num !== that.currentPage) {
+            that.currentPage = num
+            console.log(num)
+            var val = that.$searchInput.val()
+            if (val) {
+              that.getCommentList({
+                key: that.searchType,
+                val: val
+              })
+            } else {
+              that.getCommentList()
+            }
+          }
+        }
+      })
+    },
     init: function () {
-      this.getUserInfo()
+      this.getCommentList()
+      // this.getUserInfo()
       this.chooseSearchType()
       this.bindSearchBtnClick()
       this.bindMsgCloseClick()

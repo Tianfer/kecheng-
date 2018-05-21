@@ -1,20 +1,37 @@
 const connection = require('../config')
 
 exports.getCommentList = async (body) => {
-  if (Object.keys(body).length !== 0) {
+  let where = ''
+  if (body.key) {
     if (body.key === 'listen') {
       // const sql = `select * from comment where `
       // const result = await connection.getResult(sql)
     } else if (body.key === 'speak') {
-      const sql = `select * from comment where teacher_name=${connection.escape(body.val)}`
-      return await connection.getResult(sql)
+      where = `where teacher_name=${connection.escape(body.val)}`
     } else if (body.key === 'rank') {
-      const sql = `select * from comment where count_grade=${connection.escape(body.val)}`
-      return await connection.getResult(sql)
+      where = `where count_grade=${connection.escape(body.val)}`
     }
   }
 
-  return await connection.getResult('select * from comment')
+  const result1 = await connection.getResult(`select count(*) from comment ${where}`)
+  const result2 = await connection.getResult(`select * from comment ${where} limit 10 offset ${(body.currentPage - 1) * 10}`)
+  console.log(result1)
+  console.log(result1.data[0]['count(*)'])
+  console.log(result2)
+  console.log(result2.data)
+  if (result1.code !== 0) {
+    return result1
+  }
+  if (result2.code !== 0) {
+    return result2
+  }
+  return {
+    code: 0,
+    data: {
+      count: result1.data[0]['count(*)'],
+      list: result2.data
+    }
+  }
 }
 
 exports.delComment = async (body) => {
