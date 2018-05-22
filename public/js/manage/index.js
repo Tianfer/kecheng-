@@ -169,14 +169,18 @@
         }
       })
     },
-    bindExportClick: function () {
+    bindExportClick: function (e) {
       var that = this
       $('#export').click(function () {
-        that.export()
+        var html = "<html><head><meta charset='utf-8' /></head><body>"
+          + document.getElementById('table').outerHTML
+          + "</body></html>";
+        var blob = new Blob([html], {
+          type: 'application/vnd.ms-excel'
+        })
+        $(this).attr('href', URL.createObjectURL(blob))
+          .attr('download', '听课评价表.xls')
       })
-    },
-    export: function () {
-      return ExcellentExport.excel(this, 'table', 'demo')
     },
     initPaginator: function (count) {
       var that = this
@@ -200,12 +204,12 @@
       })
     },
     init: function () {
-      this.getCommentList()
-      // this.getUserInfo()
+      this.getUserInfo()
       this.chooseSearchType()
       this.bindSearchBtnClick()
       this.bindMsgCloseClick()
       this.bindMsgConfirmClick()
+      this.bindExportClick()
     }
   }
 
