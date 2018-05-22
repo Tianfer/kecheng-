@@ -199,7 +199,7 @@ if __name__=='__main__':
         port= 3306,
         user= 'root',
         passwd= '123456',
-        db = 'python',
+        db = 'comment',
         charset='utf8' )
     print '数据库连接成功'
 
