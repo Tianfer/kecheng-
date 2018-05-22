@@ -43,11 +43,10 @@ exports.commentCourse = async (body) => {
   })
   const sql = `
     insert into comment
-    (${arrKey.join(', ')}, other_advise, created_at, updated_at)
+    (${arrKey.join(', ')}, imgs, other_advise, created_at, updated_at)
     values
-    (${arrVal.join(', ')}, ${connection.escape(body.other_advise)}, ${Date.now()}, ${Date.now()})
+    (${arrVal.join(', ')}, ${connection.escape(body.imgs)}, ${connection.escape(body.other_advise)}, ${Date.now()}, ${Date.now()})
   `
-  console.log(sql)
   return connection.getResult(sql)
 }
 

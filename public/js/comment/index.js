@@ -5,7 +5,10 @@
     this.$sliderInput = [$('#sliderInput0'), $('#sliderInput1'), $('#sliderInput2'), $('#sliderInput3'), $('#sliderInput4')]
     this.$countScore = $('#countScore')
     this.$countGrade = $('#countGrade')
+
     this.courseInfo = {}
+    this.imgArr = []
+
     this.init()
   }
   Comment.prototype = {
@@ -50,8 +53,21 @@
     },
     submit: function (params) {
       loading.show()
+      // 先上传图片
+      if (this.imgArr.length) {
+        var that = this
+        this.uploadImage(function (imgs) {
+          params.imgs = imgs.join(',')
+          that.submitAjax(params)
+        })
+      } else {
+        params.imgs = ''
+        this.submitAjax(params)
+      }
+    },
+    submitAjax: function (params) {
       $.ajax({
-        url: '/commentCourse',
+        url: '/api/commentCourse',
         type: 'POST',
         data: params,
         success: function (res) {
@@ -68,17 +84,17 @@
         }
       })
     },
-    getCourseInfo: function (cb) {
+    getCourseInfo: function () {
       loading.show()
       var id = location.search.slice(1).split('=')[1]
       var that = this
       $.ajax({
-        url: '/getCourse/' + id,
+        url: '/api/getCourse/' + id,
         success: function (res) {
           console.log(res)
           loading.hide()
           if (res.code === 0) {
-            cb(res.data)
+            that.setCourseInfo(res.data)
           } else {
             toast(res.msg)
           }
@@ -89,16 +105,13 @@
         }
       })
     },
-    setCourseInfo: function () {
-      var that = this
-      this.getCourseInfo(function (data) {
-        $('#courseName').val(data.source_name)
-        $('#teacherName').val(data.teacher_name)
-        $('#className').val(data.class_name)
-        $('#place').val(data.building + ' ' + data.address)
-        $('#classes').text(that.parseTimeDetail(data.time))
-        that.saveCourseInfo(data)
-      })
+    setCourseInfo: function (data) {
+      $('#courseName').val(data.source_name)
+      $('#teacherName').val(data.teacher_name)
+      $('#className').val(data.class_name)
+      $('#place').val(data.building + ' ' + data.address)
+      $('#classes').text(this.parseTimeDetail(data.time))
+      this.saveCourseInfo(data)
     },
     saveCourseInfo (data) {
       this.courseInfo = {
@@ -166,29 +179,92 @@
         $adviseLen.text($(this).val().length)
       })
     },
-    getConfig: function () {
-      // $.ajax({
-      //   type
-      // })
+    getSnConfig: function () {
+      var that = this
+      $.ajax({
+        type: 'get',
+        url: '/api/getSnConfig?url=' + location.href,
+        success: function (res) {
+          if (res.code === 0) {
+            that.wechatConfig(res.data)
+          }
+        },
+        error: function () {
+          toast('网络异常，请稍后再试')
+        }
+      })
     },
-    wechatConfig: function () {
+    wechatConfig: function (data) {
       wx.config({
         beta: true,// 必须这么写，否则wx.invoke调用形式的jsapi会有问题
         // debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
-        appId: '', // 必填，企业微信的corpID
-        timestamp: Date.now(), // 必填，生成签名的时间戳
-        nonceStr: '', // 必填，生成签名的随机串
-        signature: '',// 必填，签名，见附录1
-        jsApiList: [] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+        appId: 'wx6219dbfa9b86489e', // 必填，企业微信的corpID
+        timestamp: data.timestamp, // 必填，生成签名的时间戳
+        nonceStr: data.nonceStr, // 必填，生成签名的随机串
+        signature: data.signature,// 必填，签名，见附录1
+        jsApiList: ['getLocalImgData', 'chooseImage', 'uploadImage'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
       })
     },
+    uploadImage: function (cb) {
+      var that = this
+      wx.uploadImage({
+        localId: that.imgArr, // 需要上传的图片的本地ID，由chooseImage接口获得
+        success: function (res) {
+          // var serverId = res.serverId; // 返回图片的服务器端ID
+          cb(res.serverId)
+        }
+      })
+    },
+    getLocalImgData: function (localIds) {
+      wx.getLocalImgData({
+        localId: localIds,
+        success: function (res) {
+          that.imgArr.push(res.localData)
+          that.renderUploadView(res.localData)
+        }
+      })
+    },
+    renderUploadView: function (imgs) {
+      var html = imgs.map(function (img) {
+        return '<li class="weui-uploader__file" style="background-image:url(' +
+          + img
+          +')"></li>'
+      }).join('')
+      $('#uploaderFiles').html(html)
+      this.setImgLength(imgs.length)
+    },
+    setImgLength: function (length) {
+      $('#imgLength').text(length)
+    },
+    bindUploadClick: function () {
+      var that = this
+      $('#uploaderInput').click(function () {
+        wx.chooseImage({
+          count: 5,
+          success: function (res) {
+            if (that.getPhoneType === 'ios') {
+              that.getLocalImgData(res.localIds)
+            } else {
+              that.imgArr = res.localIds
+              that.renderUploadView(res.localIds)
+            }
+          }
+        })
+      })
+    },
+    getPhoneType: function () {
+      if (/iPhone/i.test(navigator.userAgent)) {
+        return 'ios'
+      }
+      return 'andriod'
+    },
     init: function () {
-      this.setCourseInfo()
+      this.getCourseInfo()
       this.bindSubmitClick()
       this.initSlider()
       this.watchAdviseLen()
-      this.getConfig()
-      this.wechatConfig()
+      this.getSnConfig()
+      this.bindUploadClick()
     }
   }
 

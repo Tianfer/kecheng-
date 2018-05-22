@@ -27,6 +27,7 @@ CREATE TABLE IF NOT EXISTS `comment`(
   `effect_score` int(2) NOT NULL,
   `count_score` int(3) NOT NULL,
   `count_grade` char(1) NOT NULL,
+  `imgs` varchar(500),
   `other_advise` char(200),
   `created_at` char(13) NOT NULL,
   `updated_at` char(13) NOT NULL,

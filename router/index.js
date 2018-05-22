@@ -120,9 +120,8 @@ router.get('/getCourses', async (ctx) => {
   ctx.body = res
 })
 
-
 // 获取单个课程信息
-router.get('/getCourse/:id', async (ctx) => {
+router.get('/api/getCourse/:id', async (ctx) => {
   let res = {}
   const params = ctx.params
   const result = util.isParamsOk(params, paramsConfig.getCourse)
@@ -136,7 +135,7 @@ router.get('/getCourse/:id', async (ctx) => {
 })
 
 // 评论课程
-router.post('/commentCourse', async (ctx) => {
+router.post('/api/commentCourse', async (ctx) => {
   let res = {}
   const body = ctx.request.body
   const result = util.isParamsOk(body, paramsConfig.commentCourse, '[object Object]')
@@ -146,6 +145,15 @@ router.post('/commentCourse', async (ctx) => {
     res = result
   }
   ctx.body = res
+})
+
+router.get('/api/getSnConfig', async (ctx) => {
+  const query = ctx.request.query
+  const data = await util.getSnConfig(query.url)
+  ctx.body = {
+    code: 0,
+    data
+  }
 })
 
 // 其他页面就404

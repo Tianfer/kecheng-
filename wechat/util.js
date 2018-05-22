@@ -77,6 +77,52 @@ const getUserInfo = async (code) => {
   return result
 }
 
+const getJt = async (ctx) => {
+  let jt = ''
+  const At = await getAt()
+  console.log(At)
+  await new Promise((resolve, reject) => {
+    https.get(`https://qyapi.weixin.qq.com/cgi-bin/get_jsapi_ticket?access_token=${At}`, res => {
+      res.on('data', (data) => {
+        resolve(JSON.parse(data.toString()))
+      })
+    })
+  }).then((data) => {
+    console.log(data)
+    if (data.errcode === 0) {
+      jt = data.ticket
+    }
+  })
+  return jt
+}
+
+const getNoncestr = () => {
+  const str = 'qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890'
+  const arr = []
+  for (let i = 0; i < 16; i++) {
+    const num = Math.floor(Math.random() * 62)
+    arr.push(str.slice(num, num + 1))
+  }
+  return arr.join('')
+}
+
+// 获取签名算法的数据
+const getSnConfig = async (url) => {
+  const noncestr = getNoncestr()
+  const jsapi_ticket = await getJt()
+  const timestamp = Math.floor(Date.now())
+  const signature = sha1(`jsapi_ticket=${jsapi_ticket}&noncestr=${noncestr}&timestamp=${timestamp}&url=${url}`)
+  console.log(noncestr)
+  console.log(jsapi_ticket)
+  console.log(timestamp)
+  console.log(signature)
+  return {
+    noncestr,
+    timestamp,
+    signature
+  }
+}
+
 // const defineMenu = async () => {
 //   const At = await getAt()
 //   let str = ''
@@ -225,5 +271,6 @@ const isParamsOk = (params, formatObj, type) => {
 module.exports = {
   getAt,
   getUserInfo,
-  isParamsOk
+  isParamsOk,
+  getSnConfig
 }

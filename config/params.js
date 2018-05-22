@@ -37,6 +37,7 @@ const paramsConfig = {
     effect_score: typeStore['number'],
     count_score: typeStore['number'],
     count_grade: typeStore['string'],
+    // imgs: typeStore['string']                // 非必填项
     // other_advise: typeStore['string']        // 非必填项
   },
   getCourse: {
