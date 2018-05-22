@@ -56,7 +56,7 @@ const saveAt = (data) => {
   data.lastTime = Date.now()
   fs.writeFile(`${__dirname}/wechat.json`, JSON.stringify(data), 'utf8', (err, data) => {
     if (err) {
-      console.log('getAt error')
+      console.log('saveAt error')
       console.log(err)
     }
   })
@@ -77,23 +77,63 @@ const getUserInfo = async (code) => {
   return result
 }
 
-const getJt = async (ctx) => {
-  let jt = ''
-  const At = await getAt()
-  console.log(At)
+const getLocalJtInfo = async () => {
+  let AtExpired = true
+  let Jt = ''
   await new Promise((resolve, reject) => {
-    https.get(`https://qyapi.weixin.qq.com/cgi-bin/get_jsapi_ticket?access_token=${At}`, res => {
-      res.on('data', (data) => {
-        resolve(JSON.parse(data.toString()))
-      })
+    fs.readFile(`${__dirname}/JT.json`, 'utf8', (err, data) => {
+      if (err) {
+        reject(err)
+      } else {
+        resolve(JSON.parse(data))
+      }
     })
   }).then((data) => {
-    console.log(data)
-    if (data.errcode === 0) {
-      jt = data.ticket
+    if (Date.now() < data.lastTime + data.expires_in * 1000) {
+      AtExpired = false
+      Jt = data.ticket
+    }
+  }).catch((err) => {
+    console.log('something error')
+    console.log(err)
+  })
+  return { AtExpired , Jt }
+}
+
+const getJt = async (ctx) => {
+  const info = await getLocalJtInfo()
+  let Jt = ''
+  if (info.AtExpired) {
+    console.log('I get a new Jt')
+    const At = await getAt()
+    await new Promise((resolve, reject) => {
+      https.get(`https://qyapi.weixin.qq.com/cgi-bin/get_jsapi_ticket?access_token=${At}`, res => {
+        res.on('data', (data) => {
+          resolve(JSON.parse(data.toString()))
+        })
+      })
+    }).then((data) => {
+      console.log(data)
+      if (data.errcode === 0) {
+        saveJt(data)
+        Jt = data.ticket
+      }
+    })
+  } else {
+    Jt = info.Jt
+  }
+
+  return Jt
+}
+
+const saveJt = async (data) => {
+  data.lastTime = Date.now()
+  fs.writeFile(`${__dirname}/JT.json`, JSON.stringify(data), 'utf8', (err, data) => {
+    if (err) {
+      console.log('saveJt error')
+      console.log(err)
     }
   })
-  return jt
 }
 
 const getNoncestr = () => {
