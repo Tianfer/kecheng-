@@ -74,6 +74,10 @@
           loading.hide()
           if (res.code === 0) {
             location.replace('/comment_success')
+          } else if (res.code === 401) {
+            toast('请先登录再评价', function () {
+              window.href = '/comment' + location.search
+            })
           } else {
             toast(res.msg)
           }
@@ -112,6 +116,7 @@
       $('#place').val(data.building + ' ' + data.address)
       $('#classes').text(this.parseTimeDetail(data.time))
       this.saveCourseInfo(data)
+      this.initSlider()
     },
     saveCourseInfo (data) {
       this.courseInfo = {
@@ -139,7 +144,6 @@
       }
     },
     initSlider: function () {
-      console.log('initSlider')
       for (var i = 0; i < 5; i++) {
         (function (that, i) {
           $('#slider' + i).slider(function (percent) {
@@ -261,7 +265,6 @@
     init: function () {
       this.getCourseInfo()
       this.bindSubmitClick()
-      this.initSlider()
       this.watchAdviseLen()
       this.getSnConfig()
       this.bindUploadClick()

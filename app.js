@@ -3,7 +3,6 @@ const app = new Koa()
 const bodyParser = require('koa-bodyparser')
 const xmlParser = require('koa-xml-body')
 const static = require('koa-static')
-// const path = require('path')
 
 const router = require('./router')
 

@@ -296,7 +296,6 @@ const isParamsOk = (params, formatObj, type) => {
         }
       }
     }
-    console.log(params)
     return {
       code: 0,
       data: params

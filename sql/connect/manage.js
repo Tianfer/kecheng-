@@ -4,8 +4,7 @@ exports.getCommentList = async (body) => {
   let where = ''
   if (body.key) {
     if (body.key === 'listen') {
-      // const sql = `select * from comment where `
-      // const result = await connection.getResult(sql)
+      where = `where comment_teacher_name=${connection.escape(body.val)}`
     } else if (body.key === 'speak') {
       where = `where teacher_name=${connection.escape(body.val)}`
     } else if (body.key === 'rank') {
@@ -14,11 +13,7 @@ exports.getCommentList = async (body) => {
   }
 
   const result1 = await connection.getResult(`select count(*) from comment ${where}`)
-  const result2 = await connection.getResult(`select * from comment ${where} limit 10 offset ${(body.currentPage - 1) * 10}`)
-  console.log(result1)
-  console.log(result1.data[0]['count(*)'])
-  console.log(result2)
-  console.log(result2.data)
+  const result2 = await connection.getResult(`select * from comment ${where} order by updated_at desc limit 10 offset ${(body.currentPage - 1) * 10}`)
   if (result1.code !== 0) {
     return result1
   }

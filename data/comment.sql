@@ -3,6 +3,8 @@ CREATE TABLE IF NOT EXISTS `comment`(
   `class_id` int(11) NOT NULL,
   `teacher_id` char(32) NOT NULL,
   `teacher_name` CHAR(10) NOT NULL,
+  `comment_teacher_id` char(32) NOT NULL,
+  `comment_teacher_name` CHAR(10) NOT NULL,
   `course_id` char(16) NOT NULL,
   `course_name` char(24) NOT NULL,
   `time_week` int(2) NOT NULL,

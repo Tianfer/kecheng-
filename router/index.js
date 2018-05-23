@@ -11,8 +11,32 @@ const User = require('../sql/connect/user')
 
 // 评论页面
 router.get('/comment', (ctx) => {
-  console.log(ctx.request.querystring)
-  ctx.redirect(`/html/comment.html?${ctx.request.querystring}`)
+  var id = ctx.request.query.id
+  if (ctx.cookies.get('user_id')) {
+    ctx.redirect(`/html/comment.html?id=${id}`)
+  } else {
+    ctx.redirect(`https://open.weixin.qq.com/connect/oauth2/authorize?appid=${wechat.corpid}&redirect_uri=http%3A%2F%2Fcourse.bgcloud.top%2Fcomment%2FgetUserInfo%3Fid%3D${id}&response_type=code&scope=snsapi_base&agentid=${wechat.agentid}&state=mob_login#wechat_redirect`)
+  }
+})
+
+// 评论节目获取用户信息
+router.get('/comment/getUserInfo', async (ctx) => {
+  const query = ctx.request.query
+  console.log(query)
+  if (query.code) {
+    const res = await util.getUserInfo(query.code)
+    if (res.errcode === 0) {
+      // 设置cookie，过期时间为7天
+      ctx.cookies.set('user_id', res.UserId, {
+        expires: new Date(Date.now() + 604800000)
+      })
+      ctx.redirect(`/html/comment.html?id=${query.id}`)
+    } else {
+      ctx.body = res
+    }
+  } else {
+    ctx.body = '请您登录后再评论'
+  }
 })
 
 // 评论成功页面
@@ -22,12 +46,20 @@ router.get('/comment_success', (ctx) => {
 
 // 管理界面
 router.get('/manage', async (ctx) => {
-  var id = ctx.cookies.get('id')
-  if (id) {
-    const userInfo = await User.getUserInfo(id)
-    ctx.redirect(`/html/manage.html`)
+  const user_id = ctx.cookies.get('user_id')
+  if (user_id) {
+    const result = await User.getUserInfo(user_id)
+    if (result.code === 0) {
+      if (result.data[0].level >= 2) {
+        ctx.redirect(`/html/manage.html`)
+      } else {
+        ctx.body = '您暂无权限查看'
+      }
+    } else {
+      ctx.body = result
+    }
   } else {
-    ctx.redirect(`https://open.work.weixin.qq.com/wwopen/sso/qrConnect?appid=${wechat.corpid}&agentid=${wechat.agentid}&redirect_uri=http%3A%2F%2Fwww.tianfer.top%2Fmanage%2FgetUserInfo&state=web_login`)
+    ctx.redirect(`https://open.work.weixin.qq.com/wwopen/sso/qrConnect?appid=${wechat.corpid}&agentid=${wechat.agentid}&redirect_uri=http%3A%2F%2Fcourse.bgcloud.top%2Fmanage%2FgetUserInfo&state=web_login`)
   }
 })
 
@@ -42,7 +74,7 @@ router.get('/manage/getUserInfo', async (ctx) => {
       // 设置cookie，过期时间为7天
       if (result.code === 0) {
         if (result.data[0].level >= 2) {
-          ctx.cookies.set('id', res.UserId, {
+          ctx.cookies.set('user_id', res.UserId, {
             expires: new Date(Date.now() + 604800000)
           })
           ctx.redirect(`/html/manage.html`)
@@ -60,7 +92,7 @@ router.get('/manage/getUserInfo', async (ctx) => {
 
 // 前端获取用户信息
 router.get('/api/getUserInfo', async (ctx) => {
-  const id = ctx.cookies.get('id')
+  const id = ctx.cookies.get('user_id')
   if (id) {
     const result = await User.getUserInfo(id)
     console.log(result)
@@ -88,7 +120,7 @@ router.post('/api/getCommentList', async (ctx) => {
 
 // 管理界面退出
 router.get('/api/logout', async (ctx) => {
-  ctx.cookies.set('id', '', {
+  ctx.cookies.set('user_id', '', {
     expires: new Date(Date.now() - 3600000)
   })
   ctx.body = {
@@ -137,12 +169,30 @@ router.get('/api/getCourse/:id', async (ctx) => {
 // 评论课程
 router.post('/api/commentCourse', async (ctx) => {
   let res = {}
-  const body = ctx.request.body
-  const result = util.isParamsOk(body, paramsConfig.commentCourse, '[object Object]')
-  if (result.code === 0) {
-    res = await Course.commentCourse(result.data)
+  const user_id = ctx.cookies.get('user_id')
+  if (user_id) {
+    const body = ctx.request.body
+    const result = util.isParamsOk(body, paramsConfig.commentCourse, '[object Object]')
+    if (result.code === 0) {
+      // const userInfo = await User.getUserInfo('1405020315')
+      const userInfo = await User.getUserInfo(user_id)
+      if (userInfo.code === 0) {
+        res = await Course.commentCourse(result.data, userInfo.data[0])
+        // res = await Course.commentCourse(result.data, {
+        //   teacher_id: 1405020315,
+        //   name: '陈天赋'
+        // })
+      } else {
+        res = userInfo
+      }
+    } else {
+      res = result
+    }
   } else {
-    res = result
+    res = {
+      code: 401,
+      msg: '请您登录后再评论'
+    }
   }
   ctx.body = res
 })

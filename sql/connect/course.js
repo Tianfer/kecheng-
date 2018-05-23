@@ -35,7 +35,7 @@ exports.getCourses = async (body) => {
   return result
 }
 
-exports.commentCourse = async (body) => {
+exports.commentCourse = async (body, user) => {
   const arrKey = Object.keys(paramsConfig.commentCourse)
   const arrVal = []
   arrKey.map((key) => {
@@ -43,9 +43,9 @@ exports.commentCourse = async (body) => {
   })
   const sql = `
     insert into comment
-    (${arrKey.join(', ')}, imgs, other_advise, created_at, updated_at)
+    (${arrKey.join(', ')}, comment_teacher_id, comment_teacher_name, imgs, other_advise, created_at, updated_at)
     values
-    (${arrVal.join(', ')}, ${connection.escape(body.imgs)}, ${connection.escape(body.other_advise)}, ${Date.now()}, ${Date.now()})
+    (${arrVal.join(', ')}, '${user.teacher_id}', '${user.name}', ${connection.escape(body.imgs)}, ${connection.escape(body.other_advise)}, ${Date.now()}, ${Date.now()})
   `
   return connection.getResult(sql)
 }

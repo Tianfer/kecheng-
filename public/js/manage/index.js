@@ -8,6 +8,7 @@
 
     this.delId = -1,
     this.currentPage = 1
+    this.count = 0
 
     this.init()
   }
@@ -74,7 +75,9 @@
           console.log(res)
           if (res.code === 0) {
             that.setCommentList(res.data.list)
-            that.initPaginator(res.data.count)
+            if (!that.count) {
+              that.initPaginator(res.data.count)
+            }
           } else {
             toast(res.msg)
           }
@@ -88,7 +91,7 @@
     setCommentList: function (data) {
       var html = data.map(function (item) {
         return '<tr class="js-index' + item.id + ' table-list">' +
-          '<td class="table-item table-item__listen">' + '暂无' + '</td>' +
+          '<td class="table-item table-item__listen">' + item.comment_teacher_name + '</td>' +
           '<td class="table-item">' + item.teacher_name + '</td>' +
           '<td class="table-item">' + item.presence + '/' + item.all_people + '</td>' +
           '<td class="table-item">' + item.attitude_score + '</td>' +
@@ -183,13 +186,14 @@
       })
     },
     initPaginator: function (count) {
+      this.count = count
       var that = this
       $('#paginator').jqPaginator({
         totalPages: Math.ceil(count / 10),
         onPageChange: function (num) {
+          console.log(num)
           if (num !== that.currentPage) {
             that.currentPage = num
-            console.log(num)
             var val = that.$searchInput.val()
             if (val) {
               that.getCommentList({
