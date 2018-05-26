@@ -1,3 +1,8 @@
+import '../common/fastclick.js'
+import '../common/rem.js'
+import loading from '../common/loading.js'
+import toast from '../common/toast.js'
+
 (function () {
   function Comment () {
     this.$form = $('#form')

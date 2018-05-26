@@ -48,3 +48,7 @@ function toastSucs (text, time, cb) {
 
     showToast()
 }
+
+if (typeof exports === 'object') {
+    module.exports = toastSucs
+}

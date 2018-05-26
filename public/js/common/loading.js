@@ -1,4 +1,3 @@
-// created: 2018.3.30 by: ChazzChen
 var loading = {
     isExist: false,
     zIndex: 11000,

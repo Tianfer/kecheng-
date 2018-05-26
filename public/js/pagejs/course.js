@@ -1,3 +1,7 @@
+import '../lib/jq.min.js'
+import loading from '../common/loading.js'
+import toast from '../common/toast.js'
+
 var course = (function () {
   function transWeek(text) {
     switch (text) {
@@ -224,18 +228,4 @@ $(function() {
     }
   });
   $('.tabular.menu .item').tab();
-  // $.ajax({
-  //   type:'get',
-  //   url:'/check',
-  //   error:function(err) {
-  //     layer.open({
-  //       type: 2,
-  //       content: '正在跳转授权登陆',
-  //       shadeClose: false
-  //     });
-  //     if (err.status == 403) {
-  //       location.href = 'http://market.ticknet.cn/oauth?state='+location.href;
-  //     }
-  //   }
-  // });
 })

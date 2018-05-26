@@ -1,3 +1,6 @@
+import loading from '../common/loading.js'
+import toast from '../common/toast.js'
+
 (function () {
   function Manage () {
     this.searchType = 'listen'

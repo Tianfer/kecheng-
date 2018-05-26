@@ -40,3 +40,7 @@ function toast (text, time, cb) {
 
     showToast()
 }
+
+if (typeof exports === 'object') {
+    module.exports = toast
+}
