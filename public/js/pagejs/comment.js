@@ -133,12 +133,11 @@ import toast from '../common/toast.js'
         time_week: data.week,
         grade: data.grade,
         course_id: data.source_id,
-        teacher_id: 22,
+        teacher_id: -1,                     // teacher_id为上课老师id，因为表的原因，不想连表查询，如果以后需要加再加
         teacher_name: data.teacher_name,
         class_name: data.class_name,
         course_name: data.source_name
       }
-      console.log('teacher_id记得改回去')
     },
     parseTimeDetail: function (timeDetail) {
       var arr = timeDetail.split('')
@@ -211,7 +210,7 @@ import toast from '../common/toast.js'
         timestamp: data.timestamp, // 必填，生成签名的时间戳
         nonceStr: data.noncestr, // 必填，生成签名的随机串
         signature: data.signature,// 必填，签名，见附录1
-        jsApiList: ['getLocalImgData', 'chooseImage', 'uploadImage'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+        jsApiList: ['chooseImage', 'uploadImage', 'getLocalImgData'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
       })
     },
     uploadImage: function (cb) {
@@ -228,7 +227,7 @@ import toast from '../common/toast.js'
       wx.getLocalImgData({
         localId: localIds,
         success: function (res) {
-          that.imgArr.push(res.localData)
+          that.imgArr = res.localData
           that.renderUploadView(res.localData)
         }
       })
@@ -251,7 +250,7 @@ import toast from '../common/toast.js'
         wx.chooseImage({
           count: 5,
           success: function (res) {
-            if (that.getPhoneType === 'ios') {
+            if (that.getPhoneType() === 'ios') {
               that.getLocalImgData(res.localIds)
             } else {
               that.imgArr = res.localIds
