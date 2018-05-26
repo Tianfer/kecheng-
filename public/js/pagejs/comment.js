@@ -219,6 +219,7 @@ import toast from '../common/toast.js'
         localId: that.imgArr, // 需要上传的图片的本地ID，由chooseImage接口获得
         success: function (res) {
           // var serverId = res.serverId; // 返回图片的服务器端ID
+          console.log('res.serverId', res.serverId)
           cb(res.serverId)
         }
       })
@@ -234,7 +235,8 @@ import toast from '../common/toast.js'
     },
     renderUploadView: function (imgs) {
       var html = imgs.map(function (img) {
-        return '<li class="weui-uploader__file" style="background-image:url(' +
+        alert(img)
+        return '<li class="weui-uploader__file" style="background-image:url('
           + img
           +')"></li>'
       }).join('')
