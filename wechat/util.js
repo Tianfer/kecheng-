@@ -184,6 +184,8 @@ const getImgUrl = async (serverIds) => {
               }
             })
           })
+        } else {
+          resolve()
         }
       })
     })
