@@ -204,6 +204,7 @@ import toast from '../common/toast.js'
     },
     uploadImage: function (localId) {
       alert(localId)
+      alert(typeof localId)
       var that = this
       wx.uploadImage({
         localId: localId, // 需要上传的图片的本地ID，由chooseImage接口获得
