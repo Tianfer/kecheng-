@@ -163,6 +163,44 @@ const getSnConfig = async (url) => {
   }
 }
 
+// 获取上传图片
+const getImgUrl = async (serverIds) => {
+  const At = await getAt()
+  const len = serverIds.length
+  let i = 0
+  const arr = new Array(len)
+  await new Promise((resolve) => {
+    serverIds.map((media_id, index) => {
+      console.log(`https://qyapi.weixin.qq.com/cgi-bin/media/get?access_token=${At}&media_id=${media_id}`)
+      https.get(`https://qyapi.weixin.qq.com/cgi-bin/media/get?access_token=${At}&media_id=${media_id}`, res => {
+        if (res.errcode === 0) {
+          const type = res.headers['content-type'].split('/')[1]
+          console.log(type)
+          res.on('data', async (data) => {
+            saveImg(data, `${media_id}.${type}`, function () {
+              arr[index] = `/image/${media_id}.${type}`
+              if (++i >= len) {
+                resolve()
+              }
+            })
+          })
+        }
+      })
+    })
+  })
+  return arr
+}
+
+const saveImg = async (data, name, cb) => {
+  fs.writeFile(`../public/image/${name}`, data, (err) => {
+    if (err) {
+      console.log(err)
+    }
+    console.log(`saveImg already ${name}`)
+    cb()
+  })
+}
+
 // const defineMenu = async () => {
 //   const At = await getAt()
 //   let str = ''
@@ -311,5 +349,6 @@ module.exports = {
   getAt,
   getUserInfo,
   isParamsOk,
-  getSnConfig
+  getSnConfig,
+  getImgUrl
 }

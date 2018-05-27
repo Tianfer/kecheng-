@@ -10,6 +10,7 @@ import toast from '../common/toast.js'
     this.$sliderInput = [$('#sliderInput0'), $('#sliderInput1'), $('#sliderInput2'), $('#sliderInput3'), $('#sliderInput4')]
     this.$countScore = $('#countScore')
     this.$countGrade = $('#countGrade')
+    this.$uploaderFiles = $('#uploaderFiles')
 
     this.courseInfo = {}
     this.imgArr = []
@@ -58,19 +59,7 @@ import toast from '../common/toast.js'
     },
     submit: function (params) {
       loading.show()
-      // 先上传图片
-      if (this.imgArr.length) {
-        var that = this
-        this.uploadImage(function (imgs) {
-          params.imgs = imgs.join(',')
-          that.submitAjax(params)
-        })
-      } else {
-        params.imgs = ''
-        this.submitAjax(params)
-      }
-    },
-    submitAjax: function (params) {
+      params.imgs = this.imgArr.join(',')
       $.ajax({
         url: '/api/commentCourse',
         type: 'POST',
@@ -213,34 +202,55 @@ import toast from '../common/toast.js'
         jsApiList: ['chooseImage', 'uploadImage', 'getLocalImgData'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
       })
     },
-    uploadImage: function (cb) {
+    uploadImage: function (localIds) {
       var that = this
-      wx.uploadImage({
-        localId: that.imgArr, // 需要上传的图片的本地ID，由chooseImage接口获得
+      var len = localIds.length
+      var arr = new Array(len)
+      var i = 0
+      localIds.map(function (localId, index) {
+        wx.uploadImage({
+          localId: localIds, // 需要上传的图片的本地ID，由chooseImage接口获得
+          success: function (res) {
+            // var serverId = res.serverId; // 返回图片的服务器端ID
+            arr[index] = res.serverId
+            if (++i >= len) {
+              that.getImgUrl(arr)
+            }
+          }
+        })
+      })
+    },
+    getImgUrl: function (serverIds) {
+      loading.show()
+      var that = this
+      $.ajax({
+        type: 'post',
+        url: '/api/getImgUrl',
+        data: { serverIds: serverIds },
         success: function (res) {
-          // var serverId = res.serverId; // 返回图片的服务器端ID
-          console.log('res.serverId', res.serverId)
-          cb(res.serverId)
+          loading.hide()
+          if (res.code === 0) {
+            that.imgArr = res.data
+            that.renderImgView(res.data)
+          } else {
+            toast(res.msg)
+          }
+        },
+        error: function () {
+          loading.hide()
+          toast('网络异常，请稍后再试')
         }
       })
     },
-    getLocalImgData: function (localIds) {
-      wx.getLocalImgData({
-        localId: localIds,
-        success: function (res) {
-          that.imgArr = res.localData
-          that.renderUploadView(res.localData)
-        }
-      })
-    },
-    renderUploadView: function (imgs) {
-      var html = imgs.map(function (img) {
-        alert(img)
-        return '<li class="weui-uploader__file" style="background-image:url('
+    renderImgView: function (imgs) {
+      var html = imgs.map(function (img, index) {
+        return '<li class="weui-uploader__file" data-index='
+          + index
+          + ' style="background-image:url('
           + img
           +')"></li>'
       }).join('')
-      $('#uploaderFiles').html(html)
+      this.$uploaderFiles.html(html)
       this.setImgLength(imgs.length)
     },
     setImgLength: function (length) {
@@ -252,21 +262,22 @@ import toast from '../common/toast.js'
         wx.chooseImage({
           count: 5,
           success: function (res) {
-            if (that.getPhoneType() === 'ios') {
-              that.getLocalImgData(res.localIds)
-            } else {
-              that.imgArr = res.localIds
-              that.renderUploadView(res.localIds)
-            }
+            that.uploadImage(res.localIds)
           }
         })
       })
     },
-    getPhoneType: function () {
-      if (/iPhone/i.test(navigator.userAgent)) {
-        return 'ios'
-      }
-      return 'andriod'
+    bindViewImg: function () {
+      var that = this
+      this.$uploaderFiles.click(function (e) {
+        var index = $(e.target).data('index')
+        if (index) {
+          wx.previewImage({
+            current: that.imgArr[index],
+            urls: that.imgArr
+          })
+        }
+      })
     },
     init: function () {
       this.getCourseInfo()
@@ -274,6 +285,7 @@ import toast from '../common/toast.js'
       this.watchAdviseLen()
       this.getSnConfig()
       this.bindUploadClick()
+      this.bindViewImg()
     }
   }
 

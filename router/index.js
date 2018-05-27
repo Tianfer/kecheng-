@@ -197,12 +197,24 @@ router.post('/api/commentCourse', async (ctx) => {
   ctx.body = res
 })
 
+// 获取页面的签名算法
 router.get('/api/getSnConfig', async (ctx) => {
   const query = ctx.request.query
   const data = await util.getSnConfig(query.url)
   ctx.body = {
     code: 0,
     data
+  }
+})
+
+// 获取图片地址
+router.post('/api/getImgUrl', async (ctx) => {
+  const body = ctx.request.body
+  console.log(body)
+  const url = await util.getImgUrl(body.serverIds)
+  ctx.body = {
+    code: 0,
+    data: url
   }
 })
 
