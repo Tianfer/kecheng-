@@ -213,7 +213,9 @@ import toast from '../common/toast.js'
           success: function (res) {
             // var serverId = res.serverId; // 返回图片的服务器端ID
             arr[index] = res.serverId
+            alert(index, i, len, arr)
             if (++i >= len) {
+              alert(len, i, 'getImgUrl')
               that.getImgUrl(arr)
             }
           }
