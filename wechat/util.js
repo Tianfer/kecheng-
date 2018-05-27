@@ -169,8 +169,8 @@ const getImgUrl = async (serverId) => {
   let url = ''
   await new Promise((resolve) => {
     // console.log(`https://qyapi.weixin.qq.com/cgi-bin/media/get?access_token=${At}&media_id=${media_id}`)
-    // https.get(`https://qyapi.weixin.qq.com/cgi-bin/media/get?access_token=${At}&media_id=qJfqrOf0X2WM2lal-m51NBiIzMxvN2P9kZDChY8SH145EXSyan6RcExcfoOBkSod`, res => {
-    https.get(`https://qyapi.weixin.qq.com/cgi-bin/media/get?access_token=${At}&media_id=${serverId}`, res => {
+    https.get(`https://qyapi.weixin.qq.com/cgi-bin/media/get?access_token=${At}&media_id=qJfqrOf0X2WM2lal-m51NBiIzMxvN2P9kZDChY8SH145EXSyan6RcExcfoOBkSod`, res => {
+    // https.get(`https://qyapi.weixin.qq.com/cgi-bin/media/get?access_token=${At}&media_id=${serverId}`, res => {
       if (!res.errcode) {
         const type = res.headers['content-type'].split('/')[1]
         res.on('data', (data) => {
