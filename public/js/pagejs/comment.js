@@ -202,10 +202,11 @@ import toast from '../common/toast.js'
         jsApiList: ['chooseImage', 'uploadImage', 'previewImage'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
       })
     },
-    uploadImage: function (localIds) {
+    uploadImage: function (localId) {
+      alert(localId)
       var that = this
       wx.uploadImage({
-        localId: localIds, // 需要上传的图片的本地ID，由chooseImage接口获得
+        localId: localId, // 需要上传的图片的本地ID，由chooseImage接口获得
         success: function (res) {
           // var serverId = res.serverId; // 返回图片的服务器端ID
           that.getImgUrl(res.serverId)
