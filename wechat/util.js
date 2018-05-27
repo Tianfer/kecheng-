@@ -171,24 +171,32 @@ const getImgUrl = async (serverId) => {
     // console.log(`https://qyapi.weixin.qq.com/cgi-bin/media/get?access_token=${At}&media_id=${media_id}`)
     // https.get(`https://qyapi.weixin.qq.com/cgi-bin/media/get?access_token=${At}&media_id=qJfqrOf0X2WM2lal-m51NBiIzMxvN2P9kZDChY8SH145EXSyan6RcExcfoOBkSod`, res => {
     https.get(`https://qyapi.weixin.qq.com/cgi-bin/media/get?access_token=${At}&media_id=${serverId}`, res => {
+      console.log(1)
       if (!res.errcode) {
         const type = res.headers['content-type'].split('/')[1]
+        console.log(2)
         res.on('data', (data) => {
+          console.log(3)
           saveImg(data, `${serverId}.${type}`, function () {
+            console.log(4)
             url = `/image/${serverId}.${type}`
             resolve()
+            console.log(5)
           })
         })
+        console.log(6)
       } else {
         resolve()
       }
     })
   })
   console.log(url)
+  console.log(7)
   return url
 }
 
 const saveImg = async (data, name, cb) => {
+  console.log(data)
   fs.writeFile(`./public/image/${name}`, data, (err) => {
     if (err) {
       console.log(err)
