@@ -205,7 +205,7 @@ import toast from '../common/toast.js'
     uploadImage: function (localId) {
       var that = this
       wx.uploadImage({
-        localId: localId, // 需要上传的图片的本地ID，由chooseImage接口获得
+        localId: localId[0], // 需要上传的图片的本地ID，由chooseImage接口获得
         success: function (res) {
           // var serverId = res.serverId; // 返回图片的服务器端ID
           that.getImgUrl(res.serverId)
