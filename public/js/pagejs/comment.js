@@ -207,7 +207,7 @@ import toast from '../common/toast.js'
       var len = localIds.length
       var arr = new Array(len)
       var i = 0
-      alert('localIds', typeof localIds)
+      alert(localIds.length)
       localIds.map(function (localId, index) {
         wx.uploadImage({
           localId: localId, // 需要上传的图片的本地ID，由chooseImage接口获得
@@ -215,7 +215,6 @@ import toast from '../common/toast.js'
             // var serverId = res.serverId; // 返回图片的服务器端ID
             arr[index] = res.serverId
             if (++i >= len) {
-              alert(len, i, 'getImgUrl')
               that.getImgUrl(arr)
             }
           }
@@ -223,7 +222,8 @@ import toast from '../common/toast.js'
       })
     },
     getImgUrl: function (serverIds) {
-      alert('getImgUrl', serverIds)
+      alert('getImgUrl')
+      alert(serverIds)
       loading.show()
       var that = this
       $.ajax({
@@ -233,6 +233,7 @@ import toast from '../common/toast.js'
         success: function (res) {
           loading.hide()
           if (res.code === 0) {
+            console.log('demo', res.data)
             that.imgArr = res.data
             that.renderImgView(res.data)
           } else {

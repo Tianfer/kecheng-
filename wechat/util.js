@@ -171,15 +171,16 @@ const getImgUrl = async (serverIds) => {
   const arr = new Array(len)
   await new Promise((resolve) => {
     serverIds.map((media_id, index) => {
-      console.log(`https://qyapi.weixin.qq.com/cgi-bin/media/get?access_token=${At}&media_id=${media_id}`)
+      // console.log(`https://qyapi.weixin.qq.com/cgi-bin/media/get?access_token=${At}&media_id=${media_id}`)
       // console.log(`https://qyapi.weixin.qq.com/cgi-bin/media/get?access_token=${At}&media_id=qJfqrOf0X2WM2lal-m51NBiIzMxvN2P9kZDChY8SH145EXSyan6RcExcfoOBkSod`)
       https.get(`https://qyapi.weixin.qq.com/cgi-bin/media/get?access_token=${At}&media_id=${media_id}`, res => {
         if (!res.errcode) {
           const type = res.headers['content-type'].split('/')[1]
-          console.log(type)
           res.on('data', async (data) => {
+            console.log(index)
             saveImg(data, `${media_id}.${type}`, function () {
               arr[index] = `/image/${media_id}.${type}`
+              console.log(arr)
               if (++i >= len) {
                 resolve()
               }
