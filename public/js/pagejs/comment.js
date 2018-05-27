@@ -205,7 +205,7 @@ import toast from '../common/toast.js'
     uploadImage: function (localId) {
       var that = this
       wx.uploadImage({
-        localId: localId[0], // 需要上传的图片的本地ID，由chooseImage接口获得
+        localId: localId, // 需要上传的图片的本地ID，由chooseImage接口获得
         success: function (res) {
           // var serverId = res.serverId; // 返回图片的服务器端ID
           that.getImgUrl(res.serverId)
@@ -235,7 +235,11 @@ import toast from '../common/toast.js'
       })
     },
     renderImgView: function (img, length) {
-      var html = '<li id="" class="weui-uploader__file" style="background-image:url('
+      var html = '<li id="img'
+          + (length - 1)
+          + '" class="weui-uploader__file" data-index='
+          + (length - 1)
+          + ' style="background-image:url('
           + img
           +')"></li>'
       this.$uploaderFiles.append(html)
