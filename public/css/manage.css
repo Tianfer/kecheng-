@@ -317,5 +317,7 @@ thead, tbody {
   position: fixed;
   left: 50%;
   top: 50%;
+  max-width: 1200px;
+  max-height: 640px;
   transform: translate(-50%, -50%);
 }
