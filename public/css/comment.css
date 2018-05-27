@@ -111,6 +111,14 @@ body {
   color: #ccc;
 }
 
+.container ul.weui-uploader__files {
+  display: inline-block;
+}
+.container .weui-uploader__input-box {
+  display: inline-block;
+  float: none;
+}
+
 /*.item-input:before {
   position: absolute;
   left: 0;

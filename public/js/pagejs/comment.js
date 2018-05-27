@@ -261,7 +261,7 @@ import toast from '../common/toast.js'
     },
     bindViewImg: function () {
       var that = this
-      this.$uploaderFiles.click(function (e) {
+      $('#uploaderFiles').click(function (e) {
         var index = $(e.target).data('index')
         if (index) {
           wx.previewImage({
