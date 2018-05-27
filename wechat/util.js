@@ -191,6 +191,7 @@ const getImgUrl = async (serverIds) => {
       })
     })
   })
+  console.log(arr)
   return arr
 }
 
