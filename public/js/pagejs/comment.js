@@ -209,7 +209,7 @@ import toast from '../common/toast.js'
       var i = 0
       localIds.map(function (localId, index) {
         wx.uploadImage({
-          localId: localIds, // 需要上传的图片的本地ID，由chooseImage接口获得
+          localId: localId, // 需要上传的图片的本地ID，由chooseImage接口获得
           success: function (res) {
             // var serverId = res.serverId; // 返回图片的服务器端ID
             arr[index] = res.serverId
