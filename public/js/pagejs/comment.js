@@ -204,40 +204,28 @@ import toast from '../common/toast.js'
     },
     uploadImage: function (localIds) {
       var that = this
-      var len = localIds.length
-      var arr = new Array(len)
-      var i = 0
-      alert(localIds.length)
-      localIds.map(function (localId, index) {
-        wx.uploadImage({
-          localId: localId, // 需要上传的图片的本地ID，由chooseImage接口获得
-          success: function (res) {
-            // var serverId = res.serverId; // 返回图片的服务器端ID
-            arr[index] = res.serverId
-            if (++i >= len) {
-              that.getImgUrl(arr)
-            }
-          }
-        })
+      wx.uploadImage({
+        localId: localIds, // 需要上传的图片的本地ID，由chooseImage接口获得
+        success: function (res) {
+          // var serverId = res.serverId; // 返回图片的服务器端ID
+          that.getImgUrl(res.serverId)
+        }
       })
     },
-    getImgUrl: function (serverIds) {
-      alert('getImgUrl')
-      alert(serverIds)
+    getImgUrl: function (serverId) {
       loading.show()
       var that = this
       $.ajax({
         type: 'post',
         url: '/api/getImgUrl',
-        data: { serverIds: serverIds },
+        data: { serverId: serverId },
         success: function (res) {
           loading.hide()
           if (res.code === 0) {
-            console.log('demo', res.data)
-            that.imgArr = res.data
-            that.renderImgView(res.data)
+            that.imgArr.push(res.data)
+            that.renderImgView(res.data, that.imgArr.length)
           } else {
-            toast(res.msg)
+            toast('上传图片错误')
           }
         },
         error: function () {
@@ -246,16 +234,14 @@ import toast from '../common/toast.js'
         }
       })
     },
-    renderImgView: function (imgs) {
-      var html = imgs.map(function (img, index) {
-        return '<li class="weui-uploader__file" data-index='
-          + index
+    renderImgView: function (img, length) {
+      var html = '<li class="weui-uploader__file" data-index='
+          + (length - 1)
           + ' style="background-image:url('
           + img
           +')"></li>'
-      }).join('')
-      this.$uploaderFiles.html(html)
-      this.setImgLength(imgs.length)
+      this.$uploaderFiles.append(html)
+      this.setImgLength(length)
     },
     setImgLength: function (length) {
       $('#imgLength').text(length)
@@ -264,7 +250,7 @@ import toast from '../common/toast.js'
       var that = this
       $('#uploaderInput').click(function () {
         wx.chooseImage({
-          count: 5,
+          count: 1,
           success: function (res) {
             that.uploadImage(res.localIds)
           }

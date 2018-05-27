@@ -211,7 +211,7 @@ router.get('/api/getSnConfig', async (ctx) => {
 router.post('/api/getImgUrl', async (ctx) => {
   const body = ctx.request.body
   console.log(body)
-  const url = await util.getImgUrl(body.serverIds)
+  const url = await util.getImgUrl(body.serverId)
   ctx.body = {
     code: 0,
     data: url

@@ -106,6 +106,10 @@ body {
 .tips-right__item:last-child:before {
   display: none;
 }
+.upload-tips {
+  font-size: 12px;
+  color: #ccc;
+}
 
 /*.item-input:before {
   position: absolute;
