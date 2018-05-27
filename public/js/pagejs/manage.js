@@ -8,6 +8,8 @@ import toast from '../common/toast.js'
     this.$searchInput = $('#searchInput')
     this.$tbody = $('#tbody')
     this.$message = $('#message')
+    this.$bigger = $('#bigger')
+    this.$imgBigger = $('#imgBigger')
 
     this.delId = -1,
     this.currentPage = 1
@@ -92,19 +94,18 @@ import toast from '../common/toast.js'
       })
     },
     setCommentList: function (data) {
+      var that = this
       var html = data.map(function (item) {
         return '<tr class="js-index' + item.id + ' table-list">' +
           '<td class="table-item table-item__listen">' + item.comment_teacher_name + '</td>' +
           '<td class="table-item">' + item.teacher_name + '</td>' +
           '<td class="table-item">' + item.presence + '/' + item.all_people + '</td>' +
-          '<td class="table-item">' + item.attitude_score + '</td>' +
-          '<td class="table-item">' + item.content_score + '</td>' +
-          '<td class="table-item table-item__method">' + item.method_score + '</td>' +
-          '<td class="table-item">' + item.manage_score +'</td>' +
-          '<td class="table-item">' + item.effect_score + '</td>' +
           '<td class="table-item">' + item.count_score + '/' + item.count_grade + '</td>' +
           '<td class="table-item table-item__advice">' +
             '<div class="table-item__advice-text">' + item.other_advise + '</div>' +
+          '</td>' +
+          '<td class="table-item table-item__img-wrap js-imgWrap">' +
+            that.getImgString(item.imgs.split(',')) +
           '</td>' +
           '<td class="table-item table-item__operate">' +
             '<a data-id="' + item.id + '" class="js-operateDel operate-del" href="javascript:;">删除</a>' +
@@ -113,6 +114,17 @@ import toast from '../common/toast.js'
       }).join('')
       this.$tbody.html(html)
       this.bindDelBtnClick()
+      this.bindImgBiggerClick()
+    },
+    getImgString (imgs) {
+      if (imgs[0]) {
+        return imgs.map(function (img) {
+          return '<img class="table-item__img" src="' +
+            img +
+            '" alt="">'
+        }).join('')
+      }
+      return ''
     },
     bindSearchBtnClick: function () {
       var that = this
@@ -194,7 +206,6 @@ import toast from '../common/toast.js'
       $('#paginator').jqPaginator({
         totalPages: Math.ceil(count / 10),
         onPageChange: function (num) {
-          console.log(num)
           if (num !== that.currentPage) {
             that.currentPage = num
             var val = that.$searchInput.val()
@@ -210,6 +221,22 @@ import toast from '../common/toast.js'
         }
       })
     },
+    bindImgBiggerClick: function () {
+      var that = this
+      $('.js-imgWrap').click(function (e) {
+        var src = $(e.target).attr('src')
+        console.log(src)
+        if (src) {
+          that.$imgBigger.attr('src', src)
+          that.$bigger.css('display', 'block')
+        }
+      })
+    },
+    bindCloseImgBiggerClick: function () {
+      $('#bigger').click(function () {
+        $(this).css('display', 'none')
+      })
+    },
     init: function () {
       this.getUserInfo()
       this.chooseSearchType()
@@ -217,6 +244,7 @@ import toast from '../common/toast.js'
       this.bindMsgCloseClick()
       this.bindMsgConfirmClick()
       this.bindExportClick()
+      this.bindCloseImgBiggerClick()
     }
   }
 

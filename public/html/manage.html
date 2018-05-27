@@ -41,13 +41,14 @@
             <th class="table-item table-item__listen">听课老师</th>
             <th class="table-item">上课老师</th>
             <th class="table-item table-item__rate">实到/应到</th>
-            <th class="table-item">教学态度</th>
+            <!-- <th class="table-item">教学态度</th>
             <th class="table-item">教学内容</th>
             <th class="table-item table-item__method">方法与手段</th>
             <th class="table-item">教学管理</th>
-            <th class="table-item">教学效果</th>
+            <th class="table-item">教学效果</th> -->
             <th class="table-item">总分/评级</th>
             <th class="table-item table-item__advice">其他建议</th>
+            <th class="table-item table-item__imgs">图片</th>
             <th class="table-item table-item__operate">操作</th>
           </tr>
         </thead>
@@ -56,16 +57,14 @@
             <td class="table-item table-item__listen">a</td>
             <td class="table-item">b</td>
             <td class="table-item">34/35</td>
-            <td class="table-item">15</td>
-            <td class="table-item">15</td>
-            <td class="table-item table-item__method">30</td>
-            <td class="table-item">20</td>
-            <td class="table-item">20</td>
             <td class="table-item">100/A</td>
             <td class="table-item table-item__advice">
               <div class="table-item__advice-text">
                 加sdasdsa 洒大地萨达爱上啊 dasd爱上 大叔的啊的啊啊实打实的
               </div>
+            </td>
+            <td class="table-item table-item__img-wrap js-imgWrap">
+              <img class="table-item__img" src="/image/1237378768e7q8e7r8qwesafdasdfasdfaxss111.jpeg" alt="">
             </td>
             <td class="table-item table-item__operate">
               <a data-id="1" class="js-operateDel operate-del" href="javascript:;">删除</a>
@@ -75,18 +74,26 @@
       </table>
     </div>
 
-    <div id="message" class="message">
-      <div class="message-header">
-        <div class="message-title">提示</div>
-        <a id="msgClose" href="javascript:;" class="message-close">x</a>
+    <div id="message" class="message-wrap">
+      <div class="message-cover"></div>
+      <div class="message">
+        <div class="message-header">
+          <div class="message-title">提示</div>
+          <a id="msgClose" href="javascript:;" class="message-close">x</a>
+        </div>
+        <div class="message-content">
+          确定删除该评论么
+        </div>
+        <div class="message-footer">
+          <a id="msgCancel" href="javascript:;" class="message-btn message-btn__cancel">取消</a>
+          <a id="msgConfirm" href="javascript:;" class="message-btn message-btn__confirm">确认</a>
+        </div>
       </div>
-      <div class="message-content">
-        确定删除该评论么
-      </div>
-      <div class="message-footer">
-        <a id="msgCancel" href="javascript:;" class="message-btn message-btn__cancel">取消</a>
-        <a id="msgConfirm" href="javascript:;" class="message-btn message-btn__confirm">确认</a>
-      </div>
+    </div>
+
+    <div id="bigger" class="bigger">
+      <div class="message-cover"></div>
+      <img id="imgBigger" src="" alt="" class="img-bigger">
     </div>
 
     <div id="paginator" class="paginator"></div>

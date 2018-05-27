@@ -146,6 +146,7 @@ thead, tbody {
   padding: 0 5px;
 }
 .table-item__listen {
+  flex: .7;
   text-align: left;
 }
 .table-item__method {
@@ -154,10 +155,25 @@ thead, tbody {
 .table-item__rate {
 }
 .table-item__advice {
-  flex: 3;
+  flex: 2.8;
   height: inherit;
 }
+.table-item__imgs {
+  flex: 4.2;
+}
+.table-item__img-wrap {
+  flex: 4.2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.table-item__img {
+  width: 82px;
+  height: 60px;
+  cursor: pointer;
+}
 .table-item__operate {
+  flex: .7;
   text-align: right;
 }
 .table-item__advice-text {
@@ -184,8 +200,10 @@ thead, tbody {
 .operate-del {
   color: #c00;
 }
-.message {
+.message-wrap {
   display: none;
+}
+.message {
   position: fixed;
   left: 50%;
   top: 50%;
@@ -197,6 +215,14 @@ thead, tbody {
   background: #fff;
   color: #606266;
   overflow: hidden;
+}
+.message-cover {
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, .3);
 }
 .message-header, .message-footer {
   display: flex;
@@ -283,4 +309,13 @@ thead, tbody {
 }
 .paginator .active a {
   color: #fff;
+}
+.bigger {
+  display: none;
+}
+.img-bigger {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
 }

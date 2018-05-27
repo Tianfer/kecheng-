@@ -194,7 +194,7 @@ import toast from '../common/toast.js'
     wechatConfig: function (data) {
       wx.config({
         beta: true,// 必须这么写，否则wx.invoke调用形式的jsapi会有问题
-        debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+        // debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
         appId: 'wx6219dbfa9b86489e', // 必填，企业微信的corpID
         timestamp: data.timestamp, // 必填，生成签名的时间戳
         nonceStr: data.noncestr, // 必填，生成签名的随机串
@@ -261,12 +261,16 @@ import toast from '../common/toast.js'
     },
     bindViewImg: function () {
       var that = this
+      var header = 'http://course.bgcloud.top'
       that.$uploaderFiles.click(function (e) {
         var index = $(e.target).data('index')
         if (index !== undefined) {
+          var arr = that.imgArr.map(function (img) {
+            return header + img
+          })
           wx.previewImage({
-            current: that.imgArr[index],
-            urls: that.imgArr
+            current: arr[index],
+            urls: arr
           })
         }
       })
