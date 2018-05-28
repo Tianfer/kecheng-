@@ -14,6 +14,7 @@ import toast from '../common/toast.js'
     this.delId = -1,
     this.currentPage = 1
     this.count = 0
+    this.list = []
 
     this.init()
   }
@@ -80,6 +81,7 @@ import toast from '../common/toast.js'
           console.log(res)
           if (res.code === 0) {
             that.setCommentList(res.data.list)
+            that.list = res.data.list
             if (!that.count) {
               that.initPaginator(res.data.count)
             }
@@ -190,15 +192,52 @@ import toast from '../common/toast.js'
     bindExportClick: function (e) {
       var that = this
       $('#export').click(function () {
-        var html = "<html><head><meta charset='utf-8' /></head><body>"
-          + document.getElementById('table').outerHTML
-          + "</body></html>";
+        var html = "<html><head><meta charset='utf-8' /></head><body>" +
+          '<table id="table" class="table">' +
+            '<thead>' +
+              '<tr class="table-list table-head">' +
+                '<th class="table-item table-item__listen">听课老师</th>' +
+                '<th class="table-item">上课老师</th>' +
+                '<th class="table-item table-item__rate">实到/应到</th>' +
+                '<th class="table-item">教学态度</th>' +
+                '<th class="table-item">教学内容</th>' +
+                '<th class="table-item table-item__method">方法与手段</th>' +
+                '<th class="table-item">教学管理</th>' +
+                '<th class="table-item">教学效果</th>' +
+                '<th class="table-item">总分/评级</th>' +
+                '<th class="table-item table-item__advice">其他建议</th>' +
+              '</tr>' +
+            '</thead>' +
+            '<tbody id="tbody" class="table-body">' +
+              that.getBlobContent() +
+            '</tbody>' +
+          '</table>' +
+        "</body></html>";
+
         var blob = new Blob([html], {
           type: 'application/vnd.ms-excel'
         })
         $(this).attr('href', URL.createObjectURL(blob))
           .attr('download', '听课评价表.xls')
       })
+    },
+    getBlobContent: function () {
+      return this.list.map(function (item) {
+        return '<tr class="js-index' + item.id + ' table-list">' +
+          '<td class="table-item table-item__listen">' + item.comment_teacher_name + '</td>' +
+          '<td class="table-item">' + item.teacher_name + '</td>' +
+          '<td class="table-item">' + item.presence + '/' + item.all_people + '</td>' +
+          '<td class="table-item">' + item.attitude_score + '</td>' +
+          '<td class="table-item">' + item.content_score + '</td>' +
+          '<td class="table-item table-item__method">' + item.method_score + '</td>' +
+          '<td class="table-item">' + item.manage_score +'</td>' +
+          '<td class="table-item">' + item.effect_score + '</td>' +
+          '<td class="table-item">' + item.count_score + '/' + item.count_grade + '</td>' +
+          '<td class="table-item table-item__advice">' +
+            '<div class="table-item__advice-text">' + item.other_advise + '</div>' +
+          '</td>' +
+        '</tr>'
+      }).join('')
     },
     initPaginator: function (count) {
       this.count = count
